@@ -3,9 +3,10 @@ import { Card } from '@components/Card/Card'
 import styles from './header.module.scss'
 import { useSelector, useDispatch } from 'react-redux'
 import type { RootState, AppDispatch } from '@store/store'
-import { setDisplayGrid, type TImageThemes } from '@store/appSlice'
+import { setDisplayStyle, type TImageThemes } from '@store/appSlice'
 import { useEffect } from 'react'
 import { ThemeSelector } from './Components/ThemeSelector/ThemeSelector'
+import { DisplaySelector } from './Components/DisplaySelector/DisplaySelector'
 
 type TCardsListLayout = 'grid' | 'list' | 'slider'
 
@@ -21,9 +22,8 @@ interface IHeader {
 export function Header({themes}: IHeader) {
 
     const dataImages = useSelector((state: RootState) => state.app.dataImages)
-    const displayGrid = useSelector((state: RootState) => state.app.displayGrid)
+    const displayStyle = useSelector((state: RootState) => state.app.displayStyle)
     const dispatch: AppDispatch = useDispatch()
-
 
 
     return (
@@ -36,9 +36,12 @@ export function Header({themes}: IHeader) {
                     height="21"
                 />
             </div>
-            <ThemeSelector
-                themes={themes}
-            />
+            <div className={styles.containerSelectors}>
+                <ThemeSelector
+                    themes={themes}
+                />
+                <DisplaySelector />
+            </div>
         </header>
     )
 }

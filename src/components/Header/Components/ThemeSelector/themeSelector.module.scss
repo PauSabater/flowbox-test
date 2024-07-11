@@ -1,17 +1,16 @@
 .themeSelector {
     width: 100vw;
-    border-bottom: 1px dotted var(--c-grey-light);
     background: white;
 }
 
 .container {
-    width: var(--page-content-width);
     margin: 0 auto;
     height: var(--header-height);
     display: flex;
 }
 
 .button {
+    cursor: pointer;
     background-color: transparent;
     border: none;
     font-size: var(--fs-global);
@@ -24,6 +23,5 @@
         // text-decoration-style: dotted;
         text-decoration-color: var(--c-grey);
         text-decoration-style: solid;
-
     }
 }

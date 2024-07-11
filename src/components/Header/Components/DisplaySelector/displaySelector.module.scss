@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    align-items: center;
+
+    p {
+        white-space: nowrap;
+        margin: 0;
+        margin-right: var(--mg-sm);
+    }
+}
+
+.button {
+    cursor: pointer;
+    background-color: transparent;
+    height: 45px;
+    width: 45px;
+    border: none;
+    border-radius: 10px;
+    border: 1px dotted transparent;
+    margin-right: 3px;
+    transition: border-color var(--tr-base), background-color var(--tr-base);
+
+    &[data-selected="true"] {
+        background: var(--c-grey-lighter);
+    }
+
+    &:hover {
+        border-color: var(--c-grey-light);
+    }
+
+    img {
+        height: 28px;
+        width: auto;
+    }
+}

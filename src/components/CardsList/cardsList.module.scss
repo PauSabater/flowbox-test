@@ -1,6 +1,18 @@
 .cardsList {
     width: 100%;
-    display: grid;
-    grid-template-columns: repeat(3, 33%);
-    gap: 20px;
+
+    // &[data-display-style="masonry"],
+    // &[data-display-style="grid"],
+    // &[data-display-style="list"],
+    // &[data-display-style="slider"] {
+
+    // }
+
+
+    &[data-display-style="masonry"],
+    &[data-display-style="grid"] {
+        display: grid;
+        grid-template-columns: repeat(3, 33%);
+        gap: 20px;
+    }
 }

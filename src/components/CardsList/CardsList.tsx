@@ -3,7 +3,7 @@ import { Card } from '@components/Card/Card'
 import styles from './cardsList.module.scss'
 import { useSelector, useDispatch } from 'react-redux'
 import type { RootState, AppDispatch } from '@store/store'
-import { setDisplayGrid } from '@store/appSlice'
+import { setDisplayStyle } from '@store/appSlice'
 import { useEffect } from 'react'
 import type { IResponseImage } from 'src/pages/api/images'
 
@@ -21,7 +21,7 @@ interface ICardsList {
 export function CardsList({apiInitialResponse}: {apiInitialResponse: IResponseImage[]} ) {
 
     // const dataImages = useSelector((state: RootState) => state.app.dataImages)
-    // const displayGrid = useSelector((state: RootState) => state.app.displayGrid)
+    const displayStyle = useSelector((state: RootState) => state.app.displayStyle)
     // const dispatch: AppDispatch = useDispatch()
 
     useEffect(()=> {
@@ -47,16 +47,13 @@ export function CardsList({apiInitialResponse}: {apiInitialResponse: IResponseIm
 
 
     return (
-        <div className={styles.cardsList}>
+        <div data-display-style={displayStyle} className={styles.cardsList}>
 
             <div className={styles.column1}>
                 {
                     apiInitialResponse.map((cardData, i)=> {
                         if (i % 1 == 0 && i % 2 != 0 && i % 3 != 0) return (
-                            <>
-                                <Overlay />
-                                <Card {...cardData} />
-                            </>
+                            <Card {...cardData} />
                         )
                         else return <></>
                     })
@@ -66,10 +63,7 @@ export function CardsList({apiInitialResponse}: {apiInitialResponse: IResponseIm
                 {
                     apiInitialResponse.map((cardData, i)=> {
                         if (i % 2 == 0 && i % 3 != 0) return (
-                            <>
-                                <Overlay />
-                                <Card {...cardData} />
-                            </>
+                            <Card {...cardData} />
                         )
                         else return <></>
                     })
@@ -79,23 +73,12 @@ export function CardsList({apiInitialResponse}: {apiInitialResponse: IResponseIm
                 {
                     apiInitialResponse.map((cardData, i)=> {
                         if (i % 3 == 0) return (
-                            <>
-                                <Overlay />
-                                <Card {...cardData} />
-                            </>
+                            <Card {...cardData} />
                         )
                         else return <></>
                     })
                 }
             </div>
-
-
-
         </div>
     )
-}
-
-
-const Overlay = ()=> {
-    return <div className={styles.overlay}></div>
 }

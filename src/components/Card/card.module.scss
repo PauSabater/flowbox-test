@@ -1,5 +1,8 @@
 .container {
     width: 100%;
+    height: var(--card-height, auto);
+    overflow: hidden;
+    transition: height var(--tr-base);
 }
 
 .img {
@@ -11,7 +14,9 @@
 .link {
     cursor: pointer;
     position: relative;
-
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .userInfo {
@@ -20,28 +25,24 @@
     flex-direction: row;
     left: 20px;
     bottom: 20px;
-    opacity: 0;
-    transition: opacity var(--tr-base);
 
     p {
         font-size: var(--fs-xs);
         color: white;
         font-weight: 600;
     }
-
-    &:hover {
-        .imgUser {
-            opacity: 1;
-        }
-    }
 }
 
 .container:hover,
 .container:focus {
-    .userInfo {
+    .userInfo,
+    .likesContainer {
         opacity: 1;
     }
 
+    .overlay {
+        opacity: 0.2;
+    }
 }
 
 .imgUser {
@@ -50,4 +51,96 @@
 
     // left: 30px;
     // bottom: 50px;
+}
+
+.userInfo,
+.overlay,
+.likesContainer {
+    opacity: 0;
+    transition: opacity var(--tr-base);
+}
+
+.overlay {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+}
+
+.likesContainer {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    top: 20px;
+    right: 20px;
+
+    p {
+        font-size: var(--fs-2xs);
+        color: white;
+        font-weight: 400;
+        padding-top: 3px;
+    }
+
+    img {
+        margin-left: 3px;
+    }
+}
+
+.descriptionContainer {
+    .userInfo {
+        position: relative;
+        opacity: 1;
+        left: 0;
+        bottom: 0;
+        margin-top: var(--mg-sm);
+
+        p {
+            color: var(--c-grey-darker);
+        }
+    }
+
+    .description {
+        margin-top: var(--mg-xs);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .likesContainer {
+        top: 50%;
+        right: 10px;
+        opacity: 1;
+        transform: translateY(-50%);
+
+        img {
+            filter: invert(1);
+        }
+    }
+}
+
+.descriptionContainer {
+    position: relative;
+    transition: opacity var(--tr-base);
+    height: 80px;
+    opacity: 1;
+    transition: opacity var(--tr-slow) 0.3s, height var(--tr-fast) 0.2s;
+}
+
+.container[data-display-style="masonry"] {
+    & + .descriptionContainer {
+        opacity: 0;
+        height: 0;
+        transition: opacity var(--tr-fast) 0s, height var(--tr-fast) 0.2s;
+    }
+}
+
+.container[data-display-style="grid"] {
+    .userInfo,
+    .likesContainer {
+        display: none;
+    }
 }

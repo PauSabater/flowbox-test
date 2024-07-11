@@ -2,16 +2,18 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import type { IResponseImage } from 'src/pages/api/images'
 
 export type TImageThemes = 'nature' | 'architecture' | 'food' | 'fashion' | 'animals'
+export type TDisplayStyle = 'grid' | 'masonry' | 'list' | 'slider'
+
 
 interface AppState {
     dataImages: IResponseImage[] | []
-    displayGrid: boolean
+    displayStyle: TDisplayStyle
     currentTheme: TImageThemes
 }
 
 const initialState: AppState = {
     dataImages: [],
-    displayGrid: true,
+    displayStyle: 'masonry',
     currentTheme: 'nature'
 }
 
@@ -24,10 +26,10 @@ const appSlice = createSlice({
             action: PayloadAction<IResponseImage[]>) => {
                 state.dataImages = action.payload
         },
-        setDisplayGrid: (
+        setDisplayStyle: (
             state,
-            action: PayloadAction<boolean>) => {
-                state.displayGrid = action.payload
+            action: PayloadAction<TDisplayStyle>) => {
+                state.displayStyle = action.payload
         },
         setCurrentTheme: (
             state,
@@ -37,5 +39,5 @@ const appSlice = createSlice({
     },
 })
 
-export const { setdataImages, setDisplayGrid, setCurrentTheme } = appSlice.actions
+export const { setdataImages, setDisplayStyle, setCurrentTheme } = appSlice.actions
 export default appSlice.reducer

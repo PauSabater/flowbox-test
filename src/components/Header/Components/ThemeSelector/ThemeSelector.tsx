@@ -1,11 +1,8 @@
-import type { ICard } from '@components/Card/Card'
-import { Card } from '@components/Card/Card'
 import styles from './themeSelector.module.scss'
 import { useSelector, useDispatch } from 'react-redux'
 import type { RootState, AppDispatch } from '@store/store'
-import { setDisplayGrid, type TImageThemes } from '@store/appSlice'
+import { setDisplayStyle, type TImageThemes } from '@store/appSlice'
 import { setCurrentTheme } from '@store/appSlice'
-import { useEffect } from 'react'
 
 type TCardsListLayout = 'grid' | 'list' | 'slider'
 
@@ -24,10 +21,8 @@ export function ThemeSelector({themes}: IThemesSelector) {
 
     const currentTheme = useSelector((state: RootState) => state.app.currentTheme)
     const dataImages = useSelector((state: RootState) => state.app.dataImages)
-    const displayGrid = useSelector((state: RootState) => state.app.displayGrid)
+    const displayStyle = useSelector((state: RootState) => state.app.displayStyle)
     const dispatch: AppDispatch = useDispatch()
-
-
 
     return (
         <div className={styles.themeSelector}>
@@ -36,6 +31,7 @@ export function ThemeSelector({themes}: IThemesSelector) {
                     themes.map((theme, i)=> {
                         return (
                             <button
+                                key={`btn-theme-${i}`}
                                 className={styles.button}
                                 data-selected={theme === currentTheme}
                                 onClick={() => dispatch(setCurrentTheme(themes[i]))}
