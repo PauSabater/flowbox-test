@@ -68,10 +68,6 @@ export function Card({
             <div
                 ref={refContainer}
                 className={styles.container}
-                // style={{ `--card-height`: `10px` }}
-                // style={{ '--card-height': '10px' }}
-                // style={{ --card-height: 'blue', lineHeight : 10, padding: 20 }}
-                // style={{`--card-height: ${displayStyle === 'grid' ? '14vw' : 'auto'}`}
             >
 
                 <div className={styles.link}>
@@ -101,6 +97,7 @@ export function Card({
                     <p>{user}</p>
                     <LikesContainer num={likes}/>
                 </div>
+                <p className={styles.descriptionGrid}>{description || 'Lorem Ipsum title'}</p>
                 <p className={styles.dummyText}>{getDummyText(Math.floor(Math.random() * 5))}</p>
             </div>
         </div>

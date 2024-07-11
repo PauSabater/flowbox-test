@@ -32,7 +32,7 @@
     --tr-slow: 0.5s;
     --tr-slower: 0.9s;
 
-    --c-grey-lightest: hsl(0, 0%, 94%);
+    --c-grey-lightest: hsl(0, 0%, 96%);
     --c-grey-lighter: hsl(0, 0%, 90%);
     --c-grey-light: hsl(0, 0%, 80%);
     --c-grey: hsl(0, 0%, 50%);
@@ -43,4 +43,8 @@ html {
     font-family: system-ui, sans-serif;
     // background: #13151a;
     // background-size: 224px;
+
+    p {
+        line-height: 1.5;
+    }
 }
