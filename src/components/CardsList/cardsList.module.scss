@@ -15,4 +15,10 @@
         grid-template-columns: repeat(3, 33%);
         gap: 20px;
     }
+
+    &[data-display-style="list"] {
+        display: grid;
+        grid-template-columns: 100%;
+        gap: 20px;
+    }
 }

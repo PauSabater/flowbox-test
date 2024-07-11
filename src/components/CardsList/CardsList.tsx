@@ -4,7 +4,7 @@ import styles from './cardsList.module.scss'
 import { useSelector, useDispatch } from 'react-redux'
 import type { RootState, AppDispatch } from '@store/store'
 import { setDisplayStyle } from '@store/appSlice'
-import { useEffect } from 'react'
+import { Fragment, useEffect } from 'react'
 import type { IResponseImage } from 'src/pages/api/images'
 
 type TCardsListLayout = 'grid' | 'list' | 'slider'
@@ -42,7 +42,13 @@ export function CardsList({apiInitialResponse}: {apiInitialResponse: IResponseIm
 
         fetchData()
 
-}, [])
+    }, [])
+
+
+    const getLoadingType = (currentPos: number): 'lazy' | 'eager' => {
+        if (currentPos > 15) return 'lazy'
+        return 'eager'
+    }
 
 
 
@@ -53,9 +59,9 @@ export function CardsList({apiInitialResponse}: {apiInitialResponse: IResponseIm
                 {
                     apiInitialResponse.map((cardData, i)=> {
                         if (i % 1 == 0 && i % 2 != 0 && i % 3 != 0) return (
-                            <Card {...cardData} />
+                            <Card {...cardData} loading={getLoadingType(i)} key={`card-${i}`}/>
                         )
-                        else return <></>
+                        else return <Fragment key={`fr-${i}`}></Fragment>
                     })
                 }
             </div>
@@ -63,9 +69,9 @@ export function CardsList({apiInitialResponse}: {apiInitialResponse: IResponseIm
                 {
                     apiInitialResponse.map((cardData, i)=> {
                         if (i % 2 == 0 && i % 3 != 0) return (
-                            <Card {...cardData} />
+                            <Card {...cardData} loading={getLoadingType(i)} key={`card-${i}`}/>
                         )
-                        else return <></>
+                        else return <Fragment key={`fr-${i}`}></Fragment>
                     })
                 }
              </div>
@@ -73,9 +79,9 @@ export function CardsList({apiInitialResponse}: {apiInitialResponse: IResponseIm
                 {
                     apiInitialResponse.map((cardData, i)=> {
                         if (i % 3 == 0) return (
-                            <Card {...cardData} />
+                            <Card {...cardData} loading={getLoadingType(i)} key={`card-${i}`}/>
                         )
-                        else return <></>
+                        else return <Fragment key={`fr-${i}`}></Fragment>
                     })
                 }
             </div>

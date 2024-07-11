@@ -29,6 +29,7 @@ export async function GET({request}: {request: Request}) {
             description: item.description,
             alt: item.alt_description,
             urlSmall: item.urls.small,
+            urlMedium: item.urls.regular,
             user: `${item.user.first_name || ''} ${item.user.last_name || ''}`,
             userImg: item.user.profile_image.medium,
             likes: item.likes
@@ -53,6 +54,7 @@ export interface IResponseImage {
     description: string,
     alt: string,
     urlSmall: string,
+    urlMedium: string,
     user: string,
     userImg: string,
     likes: string
