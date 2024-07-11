@@ -8,6 +8,7 @@ import { useEffect, useRef } from 'react'
 
 export interface ICard extends IResponseImage {
     loading: 'eager' | 'lazy'
+    isSlider?: boolean
 }
 
 /**
@@ -28,7 +29,8 @@ export function Card({
     user,
     userImg,
     likes,
-    loading
+    loading,
+    isSlider
  }: ICard) {
 
     const displayStyle = useSelector((state: RootState) => state.app.displayStyle)
@@ -36,7 +38,6 @@ export function Card({
     const refDescriptionContainer = useRef<HTMLDivElement>(null)
 
     useEffect(()=> {
-        console.log("DISPLAY CHAGED")
         const elContainer: HTMLDivElement | null = refContainer.current
 
         if (elContainer && displayStyle === 'grid') {
@@ -64,7 +65,7 @@ export function Card({
     }
 
     return (
-        <div data-display-style={displayStyle} className={styles.cardContainer}>
+        <div className={styles.cardContainer}>
             <div
                 ref={refContainer}
                 className={styles.container}
@@ -78,6 +79,7 @@ export function Card({
                         src={urlMedium}
                         alt={alt}
                         loading={loading}
+                        data-is-wider={parseInt(width) > parseInt(height)}
                     />
                     <div className={styles.userInfo}>
                         <ImageUser src={userImg}></ImageUser>
@@ -87,19 +89,24 @@ export function Card({
                     <LikesContainer num={likes}/>
                 </div>
             </div>
-            <div
-                ref={refDescriptionContainer}
-                className={styles.descriptionContainer}
-            >
-                <p className={styles.description}>{description || 'Lorem Ipsum title'}</p>
-                <div className={styles.userInfo}>
-                    <ImageUser src={userImg}></ImageUser>
-                    <p>{user}</p>
-                    <LikesContainer num={likes}/>
-                </div>
-                <p className={styles.descriptionGrid}>{description || 'Lorem Ipsum title'}</p>
-                <p className={styles.dummyText}>{getDummyText(Math.floor(Math.random() * 5))}</p>
-            </div>
+            {
+                !isSlider ?
+                    <div
+                        ref={refDescriptionContainer}
+                        className={styles.descriptionContainer}
+                    >
+                        <p className={styles.description}>{description || 'Lorem Ipsum title'}</p>
+                        <div className={styles.userInfo}>
+                            <ImageUser src={userImg}></ImageUser>
+                            <p>{user}</p>
+                            <LikesContainer num={likes}/>
+                        </div>
+                        <p className={styles.descriptionGrid}>{description || 'Lorem Ipsum title'}</p>
+                        <p className={styles.dummyText}>{getDummyText(Math.floor(Math.random() * 5))}</p>
+                    </div>
+                : <></>
+            }
+
         </div>
     )
 }

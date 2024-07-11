@@ -30,7 +30,7 @@ const test = JSON.stringify(data)
 		<!-- <Provider store={store}> -->
 			<!-- <pre>{JSON.stringify(test)}</pre> -->
 		<!-- <BrowserRouter> -->
-			<App client:load apiInitialResponse={data.results}/>
+			<App client:only apiInitialResponse={data.results}/>
 		<!-- </BrowserRouter> -->
 		<!-- </Provider> -->
 </Layout>

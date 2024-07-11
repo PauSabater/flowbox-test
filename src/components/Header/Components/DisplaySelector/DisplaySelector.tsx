@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import type { RootState, AppDispatch } from '@store/store'
 import { setDisplayStyle, type TDisplayStyle, type TImageThemes } from '@store/appSlice'
 import { setCurrentTheme } from '@store/appSlice'
+import { setDisplaStylePersist } from '@store/persist'
 
 
 /**
@@ -29,7 +30,10 @@ export function DisplaySelector() {
                             key={`btn-display-${i}`}
                             data-selected={displayStyle === displayName}
                             className={styles.button}
-                            onClick={() => dispatch(setDisplayStyle(displayStyles[i]))}
+                            onClick={() => {
+                                setDisplaStylePersist(displayStyles[i])
+                                dispatch(setDisplayStyle(displayStyles[i]))
+                            }}
                         >
                             <DisplayIcon src={`/${displayName}.svg`}/>
                         </button>

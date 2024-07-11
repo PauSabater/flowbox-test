@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import type { RootState, AppDispatch } from '@store/store'
 import { setDisplayStyle, type TImageThemes } from '@store/appSlice'
 import { setCurrentTheme } from '@store/appSlice'
+import { setThemePersist } from '@store/persist'
 
 type TCardsListLayout = 'grid' | 'list' | 'slider'
 
@@ -34,7 +35,10 @@ export function ThemeSelector({themes}: IThemesSelector) {
                                 key={`btn-theme-${i}`}
                                 className={styles.button}
                                 data-selected={theme === currentTheme}
-                                onClick={() => dispatch(setCurrentTheme(themes[i]))}
+                                onClick={() => {
+                                    setThemePersist(themes[i])
+                                    dispatch(setCurrentTheme(themes[i]))
+                                }}
                             >
                                 {theme}
                             </button>

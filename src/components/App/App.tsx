@@ -9,6 +9,7 @@ import { Header } from '@components/Header/Header'
 import '@styles/variables.scss'
 import type { IResponseImage } from 'src/pages/api/images'
 import { Route, Routes } from 'react-router-dom'
+import { Slider } from '@components/Slider/Slider'
 
 /**
  * Renders the root component for the aplication
@@ -28,6 +29,7 @@ export function App({apiInitialResponse}: {apiInitialResponse: IResponseImage[]}
                     themes={['nature', 'architecture', 'animals', 'fashion', 'food']}
                 />
                 <main className={styles.main}>
+                    <Slider apiInitialResponse={apiInitialResponse}/>
                     <CardsList apiInitialResponse={apiInitialResponse} />
                 </main>
             </Provider>

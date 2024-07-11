@@ -1,14 +1,6 @@
 .cardsList {
     width: 100%;
 
-    // &[data-display-style="masonry"],
-    // &[data-display-style="grid"],
-    // &[data-display-style="list"],
-    // &[data-display-style="slider"] {
-
-    // }
-
-
     &[data-display-style="masonry"],
     &[data-display-style="grid"] {
         display: grid;
@@ -20,5 +12,9 @@
         display: grid;
         grid-template-columns: 100%;
         gap: 20px;
+    }
+
+    &[data-display-style="slider"] {
+        display: none;
     }
 }

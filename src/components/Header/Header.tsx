@@ -3,10 +3,11 @@ import { Card } from '@components/Card/Card'
 import styles from './header.module.scss'
 import { useSelector, useDispatch } from 'react-redux'
 import type { RootState, AppDispatch } from '@store/store'
-import { setDisplayStyle, type TImageThemes } from '@store/appSlice'
+import { setDisplayStyle, type TDisplayStyle, type TImageThemes } from '@store/appSlice'
 import { useEffect } from 'react'
 import { ThemeSelector } from './Components/ThemeSelector/ThemeSelector'
 import { DisplaySelector } from './Components/DisplaySelector/DisplaySelector'
+import { getDisplaStylePersist } from '@store/persist'
 
 type TCardsListLayout = 'grid' | 'list' | 'slider'
 
@@ -25,6 +26,9 @@ export function Header({themes}: IHeader) {
     const displayStyle = useSelector((state: RootState) => state.app.displayStyle)
     const dispatch: AppDispatch = useDispatch()
 
+    useEffect(()=> {
+        dispatch(setDisplayStyle(getDisplaStylePersist() as TDisplayStyle))
+    },[])
 
     return (
         <header className={styles.header}>
