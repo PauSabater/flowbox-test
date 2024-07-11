@@ -1,0 +1,44 @@
+:root {
+    // --accent: 136, 58, 234;
+    // --accent-light: 224, 204, 250;
+    // --accent-dark: 49, 10, 101;
+    // --accent-gradient: linear-gradient(
+    //     45deg,
+    //     rgb(var(--accent)),
+    //     rgb(var(--accent-light)) 30%,
+    //     white 60%
+    // );
+
+    --page-content-width: clamp(200px, 85vw, 1600px);
+
+    --fs-global: 1.15rem;
+    --fs-xs: 0.75rem;
+
+    // Margins
+    --mg-xs: 5px;
+    --mg-sm: 10px;
+    --mg-md: 15px;
+    --mg-lg: 22.5px;
+    --mg-xl: 30px;
+    --mg-2xl: 40px;
+    --mg-3xl: 50px;
+
+    // Transitions
+    --tr-faster: 0.1s;
+    --tr-fast: 0.2s;
+    --tr-base: 0.3s;
+    --tr-slow: 0.5s;
+    --tr-slower: 0.9s;
+
+    --c-grey-lightest: hsl(0, 0%, 94%);
+    --c-grey-lighter: hsl(0, 0%, 90%);
+    --c-grey-light: hsl(0, 0%, 80%);
+    --c-grey: hsl(0, 0%, 50%);
+    --c-grey-dark: hsl(0, 0%, 35%);
+    --c-grey-darker: hsl(0, 0%, 20%);
+}
+html {
+    font-family: system-ui, sans-serif;
+    // background: #13151a;
+    // background-size: 224px;
+}

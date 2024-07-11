@@ -1,0 +1,53 @@
+.container {
+    width: 100%;
+}
+
+.img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 2px;
+}
+
+.link {
+    cursor: pointer;
+    position: relative;
+
+}
+
+.userInfo {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    left: 20px;
+    bottom: 20px;
+    opacity: 0;
+    transition: opacity var(--tr-base);
+
+    p {
+        font-size: var(--fs-xs);
+        color: white;
+        font-weight: 600;
+    }
+
+    &:hover {
+        .imgUser {
+            opacity: 1;
+        }
+    }
+}
+
+.container:hover,
+.container:focus {
+    .userInfo {
+        opacity: 1;
+    }
+
+}
+
+.imgUser {
+    border-radius: 50%;
+    margin-right: var(--mg-sm);
+
+    // left: 30px;
+    // bottom: 50px;
+}

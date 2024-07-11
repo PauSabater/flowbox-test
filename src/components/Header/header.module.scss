@@ -1,0 +1,19 @@
+.header {
+    --header-height: 50px;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: var(--header-height);
+    width: 100vw;
+    background: white;
+    z-index: 10;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    height: var(--header-height);
+    width: var(--page-content-width);
+    margin: 0 auto;
+}
