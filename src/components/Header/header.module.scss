@@ -1,12 +1,16 @@
+@use '../../styles/mixins.scss';
+
 .header {
+    --header-height-total: 100px;
     --header-height: 50px;
 
     position: fixed;
     top: 0;
     left: 0;
-    height: var(--header-height);
+    height: var(--header-height-total);
     width: 100vw;
     background: white;
+    border-bottom: 1px dotted var(--c-grey-light);
     z-index: 10;
 }
 
@@ -24,5 +28,20 @@
     width: var(--page-content-width);
     margin: 0 auto;
     background: white;
-    border-bottom: 1px dotted var(--c-grey-light);
+}
+
+@include mixins.mobile-tablet {
+    .containerSelectors {
+        margin-top: calc(var(--header-height) * -1);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .header {
+        img {
+            width: 80px;
+            height: auto;
+        }
+    }
 }

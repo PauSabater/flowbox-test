@@ -7,6 +7,7 @@ import type { IResponseImage } from 'src/pages/api/generateApiResponse'
 import { Slider } from '@components/Slider/Slider'
 import { useEffect } from 'react'
 import { useApiCall } from 'src/hooks/useApiCall'
+import { getImagesPersist } from '@store/persist'
 
 /**
  * Renders the root component for the aplication
@@ -15,6 +16,7 @@ export function Main({apiInitialResponse}: {apiInitialResponse: IResponseImage[]
 
     const currentTheme = useSelector((state: RootState) => state.app.currentTheme)
     const { data, callApi } = useApiCall()
+    const dataLocalstorage = getImagesPersist()
 
     //Call api to update images data on theme change:
     useEffect(()=> {
@@ -30,11 +32,11 @@ export function Main({apiInitialResponse}: {apiInitialResponse: IResponseImage[]
         <main className={styles.main}>
             <Slider apiResponse={data
                 ? data as IResponseImage[]
-                : apiInitialResponse
+                : JSON.parse(dataLocalstorage) || apiInitialResponse
             }/>
             <CardsList apiResponse={data
                 ? data as IResponseImage[]
-                : apiInitialResponse
+                : JSON.parse(dataLocalstorage) || apiInitialResponse
             } />
         </main>
     )

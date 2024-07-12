@@ -16,11 +16,9 @@ export function Slider({apiResponse}: {apiResponse: IResponseImage[]} ) {
 
     const displayStyle = useSelector((state: RootState) => state.app.displayStyle)
     const refContent = useRef(null)
-
     const [horizontalScrollPos, setHorizontalScrollPos] = useState(0)
     const [translateDistance, setTranslateDistance] = useState(0)
     const [currentSlideNumber, setCurrentSlideNumber] = useState(0)
-
 
     useLayoutEffect(()=> {
         setTimeout(()=> {
@@ -54,7 +52,7 @@ export function Slider({apiResponse}: {apiResponse: IResponseImage[]} ) {
     }
 
     const moveRight = (positions = 1)=> {
-        if (currentSlideNumber < (apiResponse.length - 1)) {
+        if (currentSlideNumber < (apiResponse.length - 2)) {
             setCurrentSlideNumber(currentSlideNumber + positions)
             setHorizontalScrollPos(horizontalScrollPos - (translateDistance * positions) - (10  * positions))
         } else {

@@ -1,3 +1,5 @@
+@use '../../../../styles/mixins.scss';
+
 .container {
     display: flex;
     align-items: center;
@@ -17,7 +19,7 @@
     border: none;
     border-radius: 10px;
     border: 1px dotted transparent;
-    margin-right: 3px;
+    margin-right: var(--mg-xs);
     transition: border-color var(--tr-base), background-color var(--tr-base);
 
     &[data-selected="true"] {
@@ -29,7 +31,15 @@
     }
 
     img {
-        height: 28px;
+        height: 32px;
         width: auto;
+    }
+}
+
+@include mixins.mobile {
+    .container {
+        p {
+            display: none;
+        }
     }
 }

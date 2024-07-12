@@ -1,11 +1,12 @@
 import styles from './header.module.scss'
 import { useDispatch } from 'react-redux'
 import type { AppDispatch } from '@store/store'
-import { setDisplayStyle, type TDisplayStyle, type TImageThemes } from '@store/appSlice'
+import { setCurrentTheme, setDisplayStyle, type TDisplayStyle, type TImageThemes } from '@store/appSlice'
 import { useEffect } from 'react'
 import { ThemeSelector } from './Components/ThemeSelector/ThemeSelector'
 import { DisplaySelector } from './Components/DisplaySelector/DisplaySelector'
 import { getDisplaStylePersist } from '@store/persist'
+import { getThemePersist } from '@store/persist'
 
 
 interface IHeader {
@@ -23,6 +24,7 @@ export function Header({themes}: IHeader) {
 
     useEffect(()=> {
         dispatch(setDisplayStyle(getDisplaStylePersist() as TDisplayStyle))
+        dispatch(setCurrentTheme(getThemePersist() as TImageThemes))
     },[])
 
     return (
@@ -34,10 +36,6 @@ export function Header({themes}: IHeader) {
                     width="100"
                     height="21"
                 />
-                {/* <ThemeSelector
-                    themes={themes}
-                />
-                <DisplaySelector /> */}
             </div>
             <div className={styles.containerSelectors}>
                 <ThemeSelector

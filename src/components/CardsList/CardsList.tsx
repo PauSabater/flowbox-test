@@ -15,7 +15,7 @@ export function CardsList({apiResponse}: {apiResponse: IResponseImage[]} ) {
     const displayStyle = useSelector((state: RootState) => state.app.displayStyle)
 
     const getLoadingType = (currentPos: number): 'lazy' | 'eager' => {
-        if (currentPos > 15) return 'lazy'
+        if (currentPos > 9) return 'lazy'
         return 'eager'
     }
 

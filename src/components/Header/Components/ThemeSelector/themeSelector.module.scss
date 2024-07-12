@@ -1,3 +1,5 @@
+@use '../../../../styles/mixins.scss';
+
 .themeSelector {
     width: 100vw;
     background: white;
@@ -25,3 +27,39 @@
         text-decoration-style: solid;
     }
 }
+
+@include mixins.mobile-tablet {
+    .themeSelector {
+        width: min-content;
+    }
+
+    .containerSelectors {
+        width: var(--page-content-width);
+        align-items: flex-end;
+        margin-top: -50px;
+        margin-right: auto;
+    }
+
+    .button {
+        margin-right: var(--mg-lg);
+        font-size: 1rem;
+    }
+
+    .button:last-child {
+        margin-right: 0;
+    }
+}
+
+@include mixins.mobile {
+    .container {
+        max-width: 60vw;
+        overflow: scroll;
+        margin-right: 0;
+
+        .button {
+            margin-right: var(--mg-sm);
+        }
+    }
+}
+
+

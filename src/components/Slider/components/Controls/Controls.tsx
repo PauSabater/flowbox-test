@@ -24,7 +24,6 @@ export function Controls({
 }: IControls ) {
 
     const onRangeChange = (e: ChangeEvent<HTMLInputElement>)=> {
-        console.log(e.target.value)
         callbackRangeChange(e.target.value)
     }
 
@@ -54,7 +53,7 @@ export function Controls({
                     className={styles.range}
                     type='range'
                     min='0'
-                    max={totalPos}
+                    max={totalPos - 3}
                     step='1'
                     onChange={(e)=> onRangeChange(e)}
                     value={currentPos}

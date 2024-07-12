@@ -1,3 +1,5 @@
+@use '../../styles/mixins.scss';
+
 .cardsList {
     width: 100%;
 
@@ -16,5 +18,13 @@
 
     &[data-display-style="slider"] {
         display: none;
+    }
+}
+
+@include mixins.mobile-tablet {
+    .cardsList[data-display-style="masonry"],
+    .cardsList[data-display-style="grid"],
+    .cardsList[data-display-style="list"] {
+        grid-template-columns: 100%;
     }
 }

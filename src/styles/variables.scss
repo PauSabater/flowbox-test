@@ -1,3 +1,5 @@
+@use './mixins.scss';
+
 :root {
     // --accent: 136, 58, 234;
     // --accent-light: 224, 204, 250;
@@ -13,6 +15,7 @@
 
     --fs-lg: 1.3rem;
     --fs-global: 1.15rem;
+    --fs-sm: 1rem;
     --fs-xs: 0.75rem;
     --fs-2xs: 0.65rem;
 
@@ -38,11 +41,29 @@
     --c-grey: hsl(0, 0%, 50%);
     --c-grey-dark: hsl(0, 0%, 35%);
     --c-grey-darker: hsl(0, 0%, 20%);
+
+    @include mixins.mobile-tablet {
+        --page-content-width: calc(100vw - 40px);
+        --fs-global: 1rem;
+    }
+
+    @include mixins.mobile {
+        --page-content-width: calc(100vw - 40px);
+    }
 }
+
 html {
-    font-family: system-ui, sans-serif;
-    // background: #13151a;
-    // background-size: 224px;
+    font-family: 'Inter Variable', sans-serif;
+
+    p {
+        line-height: 1.5;
+        font-family: 'Inter Variable', sans-serif;
+        font-size: var(--fs-global);
+    }
+}
+
+body {
+    font-family: 'Inter Variable', sans-serif;
 
     p {
         line-height: 1.5;

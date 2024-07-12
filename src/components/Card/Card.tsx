@@ -20,11 +20,11 @@ export interface ICard extends IResponseImage {
 export function Card({
     width,
     height,
-    created,
-    updated,
+    // created,
+    // updated,
     description,
     alt,
-    urlSmall,
+    // urlSmall,
     urlMedium,
     user,
     userImg,
@@ -38,44 +38,47 @@ export function Card({
     const refContainer = useRef<HTMLDivElement>(null)
     const refImage = useRef<HTMLImageElement>(null)
     const refDescriptionContainer = useRef<HTMLDivElement>(null)
-    const [animateImg, setAnimateImg] = useState<boolean>(false)
     const [previousDisplay, setPreviousDisplay] = useState<TDisplayStyle>(currentTheme as TDisplayStyle)
-
+    // const [gridHeight, setGridHeight] =
 
     useEffect(()=> {
         const elContainer: HTMLDivElement | null = refContainer.current
-
-        // console.log("EFFECT")
-        // console.log('previous '+previousDisplay)
-        // console.log('next '+displayStyle)
-        setHeightauto(elContainer as HTMLDivElement)
-
+        const duration = previousDisplay === 'list' || previousDisplay === 'slider' ? 0 : 0.3
 
         if (elContainer && displayStyle === 'grid') {
-            console.log("TO GRID")
-            animateToFixedHeight(elContainer, 0.5)
+            animateToFixedHeight(elContainer, duration)
         }
 
         if (elContainer && displayStyle === 'masonry') {
-            console.log("TO FULL HEIGHT")
-            animateToFullHeight(elContainer, 0.5)
-        }
-        else {
-            console.log("TO AUTOO")
-            setHeightauto(elContainer as HTMLDivElement)
+            animateToFullHeight(elContainer, duration)
         }
 
         setPreviousDisplay(displayStyle)
     }, [displayStyle])
+
+    useEffect(()=> {
+        addEventListener("resize", (event) => {
+            if (displayStyle === 'masonry' && refContainer.current) {
+                setHeightauto(refContainer.current)
+            }
+        })
+
+        onresize = (event) => {}
+    })
 
 
     useEffect(()=> {
         onThemeChange()
     },[currentTheme])
 
+    const isMobileTablet = ()=> {
+        return window.innerWidth > 1023
+    }
+
     const animateToFixedHeight = (elToAnimate: HTMLElement, duration: number)=> {
+        const isMobile = window.innerWidth > 1023
         gsap.to(elToAnimate, {
-            height: '15vw',
+            height: isMobileTablet() ? '15vw' : '60vw',
             duration: duration,
             ease: "power1.out"
         })
@@ -83,14 +86,19 @@ export function Card({
 
     const animateToFullHeight = (elToAnimate: HTMLElement, duration: number)=> {
         // Since align center flexbox is used, only half of scroll height related to current height is considered
-        // const scrollHeight = elToAnimate.scrollHeight * 2 - elToAnimate.offsetHeight
-        // console.log(`${scrollHeight}px`)
-        // if(scrollHeight !== 0)
+        const scrollHeight = elToAnimate.scrollHeight * 2 - elToAnimate.offsetHeight
+        if(scrollHeight !== 0)
 
-        // gsap.to(elToAnimate, {
-        //     height: `${scrollHeight}px`,
-        //     duration: 1,
-        //     ease: "power1.out"
+        gsap.to(elToAnimate, {
+            height: `${scrollHeight}px`,
+            duration: duration,
+            ease: "power1.out"
+        })
+
+        // setTimeout(()=> {
+        //     gsap.set(elToAnimate, {
+        //         height: `auto`,
+        //     })
         // })
     }
 
@@ -120,14 +128,13 @@ export function Card({
                     <img
                         ref={refImage}
                         onLoad={onThemeChange}
-                        className={`${styles.img} ${animateImg ? styles.animateAppear : ''}`}
+                        className={`${styles.img}`}
                         width={width}
                         height={height}
                         src={urlMedium}
                         alt={alt}
                         loading={loading}
                         data-is-wider={parseInt(width) > parseInt(height)}
-                        data-animate={animateImg}
                     />
                     <div className={styles.userInfo}>
                         <ImageUser src={userImg}></ImageUser>
@@ -163,8 +170,8 @@ const getDummyText = (i: number)=> {
 
     const texts = [
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-        'Facilisis magna etiam tempor orci eu. Phasellus egestas tellus rutrum tellus. Magna etiam tempor orci eu. Senectus et netus et malesuada fames ac turpis egestas. Urna nec tincidunt praesent semper feugiat nibh sed. Tincidunt vitae semper quis lectus nulla at volutpat diam.',
-        'Enim blandit volutpat maecenas volutpat. Lacus vestibulum sed arcu non odio euismod lacinia at quis. Vel pretium lectus quam id leo in vitae turpis. Duis at tellus at urna. Amet mauris commodo quis imperdiet massa tincidunt nunc pulvinar. Aenean euismod elementum nisi quis.',
+        'Facilisis magna etiam tempor orci eu. Phasellus egestas tellus rutrum tellus. Magna etiam tempor orci eu. Senectus et netus et malesuada fames ac turpis egestas. Urna nec tincidunt praesent semper feugiat nibh sed. Tincidunt vitae semper quis.',
+        'Enim blandit volutpat maecenas volutpat. Lacus vestibulum sed arcu non odio euismod lacinia at quis. Vel pretium lectus quam id leo in vitae turpis. Duis at tellus at urna. Amet mauris commodo quis imperdiet massa tincidunt nunc pulvinar.',
         'Fermentum leo vel orci porta non pulvinar neque. Ac ut consequat semper viverra. Ipsum dolor sit amet consectetur adipiscing elit pellentesque habitant. In ante metus dictum at tempor commodo ullamcorper a lacus. Malesuada nunc vel risus.',
         'Cras semper auctor neque vitae. Nec nam aliquam sem et tortor consequat id porta nibh. Amet dictum sit amet justo donec enim diam vulputate ut. '
     ]
@@ -177,7 +184,7 @@ const getDummyText = (i: number)=> {
 const LikesContainer = ({num}: {num: string})=> {
     return (
         <div className={styles.likesContainer}>
-            <p>{num}</p>
+            <p className={styles.likesNum}>{num}</p>
             <ImageLike/>
         </div>
     )
@@ -202,8 +209,4 @@ const ImageUser = ({src}: {src: string})=> {
             className={styles.imgUser}
         />
     )
-}
-
-const Overlay = ()=> {
-    return <div className={styles.overlay}></div>
 }

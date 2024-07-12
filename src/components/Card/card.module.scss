@@ -1,3 +1,5 @@
+@use '../../styles/mixins.scss';
+
 .cardContainer {
     display: flex;
     flex-direction: column;
@@ -7,7 +9,6 @@
     width: 100%;
     height: var(--card-height, auto);
     overflow: hidden;
-    // transition: height var(--tr-base);
     margin-bottom: 10px;
     border-radius: 10px;
     overflow: hidden;
@@ -18,7 +19,6 @@
     height: auto;
     margin-bottom: 2px;
     opacity: 1;
-    // transition: opacity 3s;
 }
 
 .animateAppear {
@@ -46,6 +46,7 @@
     position: absolute;
     display: flex;
     flex-direction: row;
+    align-items: center;
     left: 20px;
     bottom: 20px;
 
@@ -93,26 +94,6 @@
     background-color: black;
 }
 
-.likesContainer {
-    position: absolute;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    top: 20px;
-    right: 20px;
-
-    p {
-        font-size: var(--fs-2xs);
-        color: white;
-        font-weight: 400;
-        padding-top: 3px;
-    }
-
-    img {
-        margin-left: var(--mg-xs);
-    }
-}
-
 .descriptionContainer {
     .userInfo {
         position: relative;
@@ -123,6 +104,7 @@
 
         p {
             color: var(--c-grey-darker);
+            font-size: var(--fs-sm);
         }
     }
 
@@ -132,6 +114,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        font-size: var(--fs-sm);
     }
 
     .likesContainer {
@@ -151,14 +134,14 @@
     transition: opacity var(--tr-base);
     height: 90px;
     opacity: 1;
-    transition: opacity var(--tr-fast) 0.3s, height var(--tr-fast) 0.2s;
+    transition: opacity var(--tr-fast) 0.3s, height var(--tr-fast);
 }
 
 div[data-display-style="masonry"] .cardContainer {
     .descriptionContainer {
         opacity: 0;
         height: 0;
-        transition: opacity 0s 0s, height var(--tr-fast) 0.2s;
+        transition: opacity 0s 0s, height var(--tr-fast);
     }
 }
 
@@ -177,6 +160,7 @@ div[data-display-style="grid"] .cardContainer {
         display: block;
         border-bottom: 10px solid transparent;
         margin-top: 0;
+        font-size: var(--fs-sm);
     }
 }
 
@@ -194,7 +178,7 @@ div[data-display-style="list"] .cardContainer {
     margin-bottom: var(--mg-sm);
 
     .container {
-        height: 27vw;
+        height: 27vw !important;
         margin-bottom: 0;
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
@@ -217,15 +201,16 @@ div[data-display-style="list"] .cardContainer {
 .dummyText {
     color: var(--c-grey-dark);
     padding-right: 8px;
+    font-size: var(--fs-sm);
 }
 
 div[data-display-style="slider"] .cardContainer {
-    height: var(--slider-height);
+    height: var(--slider-height) !important;
     width: min-content;
     margin-right: var(--mg-sm);
 
     .container {
-        height: var(--slider-height);
+        height: var(--slider-height) !important;
         width: var(--slider-height);
         margin-bottom: 0;
     }
@@ -240,4 +225,71 @@ div[data-display-style="slider"] .cardContainer {
         width: 100%;
     }
 
+}
+
+.likesContainer {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    top: 20px;
+    right: 20px;
+
+    p.likesNum {
+        font-size: var(--fs-2xs);
+        color: white;
+        font-weight: 400;
+        padding-top: 3px;
+    }
+
+    img {
+        margin-left: var(--mg-xs);
+    }
+}
+
+@include mixins.desktop-sm {
+    div[data-display-style="list"] .cardContainer {
+        .descriptionContainer {
+            padding: 20px;
+
+            .description {
+                margin-bottom: 0;
+            }
+        }
+
+        .likesContainer {
+
+            p.likesNum {
+                font-size: var(--fs-xs);
+                color: black;
+            }
+        }
+    }
+
+    .dummyText {
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+}
+
+@include mixins.mobile-tablet {
+    div[data-display-style="list"] .cardContainer {
+        grid-template-columns: 100%;
+        border-radius: 10px;
+
+        .container {
+            height: 60vw !important;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .descriptionContainer {
+            padding: 20px;
+            height: auto;
+            border-bottom-right-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+    }
 }
