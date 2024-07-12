@@ -105,6 +105,10 @@
         p {
             color: var(--c-grey-darker);
             font-size: var(--fs-sm);
+            max-width: 70%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
     }
 

@@ -17,7 +17,7 @@ interface IThemesSelector {
  */
 export function ThemeSelector({themes}: IThemesSelector) {
 
-    const currentTheme = useSelector((state: RootState) => state.app.currentTheme)
+    const currentTheme = useSelector((state: RootState) => state.app.currentTheme) || 'nature'
     const dispatch: AppDispatch = useDispatch()
 
     const onThemeChange = (theme: TImageThemes)=> {

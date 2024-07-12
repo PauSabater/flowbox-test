@@ -20,7 +20,7 @@ export function CardsList({apiResponse}: {apiResponse: IResponseImage[]} ) {
     }
 
     return (
-        <div data-display-style={displayStyle} className={styles.cardsList}>
+        <div data-display-style={displayStyle || 'masonry'} className={styles.cardsList}>
             <div className={styles.column1}>
                 {
                     apiResponse.map((cardData, i)=> {

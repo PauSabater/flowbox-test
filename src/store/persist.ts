@@ -1,3 +1,4 @@
+import type { IResponseImage } from "src/pages/api/generateApiResponse"
 import type { TDisplayStyle } from "./appSlice"
 
 export const setDisplaStylePersist = (value: string)=> {
@@ -20,8 +21,11 @@ export const getThemePersist = ()=> {
     return localStorage.getItem('theme') || ''
 }
 
-export const getImagesPersist = (): TDisplayStyle => {
-    return localStorage.getItem('images') as TDisplayStyle || 'masonry'
+export const getImagesPersist = (): IResponseImage[] => {
+    const imagesLocalstorage = localStorage.getItem('images')
+    return imagesLocalstorage
+        ? JSON.parse(imagesLocalstorage)
+        : ''
 }
 
 

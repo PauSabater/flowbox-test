@@ -32,11 +32,11 @@ export function Main({apiInitialResponse}: {apiInitialResponse: IResponseImage[]
         <main className={styles.main}>
             <Slider apiResponse={data
                 ? data as IResponseImage[]
-                : JSON.parse(dataLocalstorage) || apiInitialResponse
+                : dataLocalstorage || apiInitialResponse
             }/>
             <CardsList apiResponse={data
                 ? data as IResponseImage[]
-                : JSON.parse(dataLocalstorage) || apiInitialResponse
+                : dataLocalstorage || apiInitialResponse
             } />
         </main>
     )
