@@ -6,9 +6,9 @@ export function generateApiResponse(dataReponse: any) {
 
     let response: IResponseImage[] = []
 
-    for(const item of dataReponse.results.entries()) {
+    for(const item of dataReponse.results.values()) {
         response.push({
-            width: item.width.toString(),
+            width: item.width.toString() || '',
             height: item.height.toString(),
             created: item.created_at,
             updated: item.updated_at,

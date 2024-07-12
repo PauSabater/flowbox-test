@@ -2,12 +2,12 @@
 import Layout from '../layouts/Layout.astro'
 import { App } from '@components/App/App'
 
-const response = await fetch('https://flowbox-test-pau-sabater.vercel.app/api/nature')
+const response = await fetch(`${Astro.url}api/nature`)
 const data = await response.json()
 
 ---
 
 <Layout title='Technical test for Flowbox'>
-	<App client:only apiInitialResponse={data.results}/>
+	<App client:only="react" apiInitialResponse={data.results}/>
 </Layout>
 

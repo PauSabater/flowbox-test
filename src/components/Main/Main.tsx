@@ -16,7 +16,7 @@ export function Main({apiInitialResponse}: {apiInitialResponse: IResponseImage[]
     const currentTheme = useSelector((state: RootState) => state.app.currentTheme)
     const { data, callApi } = useApiCall()
 
-    // Call api to update images data on theme change:
+    //Call api to update images data on theme change:
     useEffect(()=> {
         const url = window.location.href.includes('localhost')
             ? `http://localhost:4321/api/${currentTheme}`
