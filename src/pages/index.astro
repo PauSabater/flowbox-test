@@ -1,9 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro'
 import { App } from '@components/App/App'
+import data from '../data/initial-response.json'
 
-const response = await fetch(`${Astro.url}api/nature`)
-const data = await response.json()
+// const response = await fetch(`https://flowbox-test-pau-sabater.vercel.app/api/images`)
+// const response = await fetch(`${Astro.url}api/nature`)
+// const data = await response.json()
 
 ---
 
