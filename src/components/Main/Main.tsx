@@ -18,7 +18,11 @@ export function Main({apiInitialResponse}: {apiInitialResponse: IResponseImage[]
 
     // Call api to update images data on theme change:
     useEffect(()=> {
-        callApi(`http://localhost:4321/api/${currentTheme}`)
+        const url = window.location.href.includes('localhost')
+            ? `http://localhost:4321/api/${currentTheme}`
+            : `https://flowbox-test-pau-sabater.vercel.app/api/${currentTheme}`
+
+        callApi(url)
     },[currentTheme])
 
 
