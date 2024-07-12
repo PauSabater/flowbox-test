@@ -17,41 +17,15 @@
 
 .slider[data-display-style="slider"] {
     display: flex;
+    flex-direction: column;
 }
 
-.arrowLeft,
-.arrowRight {
-    cursor: pointer;
+.gradient {
     position: absolute;
-    height: 130px;
-    padding: 30px 20px;
-    width: auto;
-    left: -100px;
-    top: 50%;
-    background: none;
-    border: none;
-    transform: translateY(-50%);
-
-    svg {
-        height: 100%;
-        width: auto;
-
-        path {
-            stroke-width: 1px;
-            transition: fill var(--tr-base);
-        }
-    }
-
-    &:hover {
-        svg path {
-            fill: var(--c-grey-light);
-        }
-    }
-}
-
-.arrowRight {
-    left: unset;
-    right: -100px;
-    transform: translateY(-50%) scaleX(-1);
-
+    right: 0;
+    top: 0;
+    height: var(--slider-height);
+    width: 20px;
+    opacity: 1;
+    background: linear-gradient(270deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 100%);
 }

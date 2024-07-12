@@ -21,7 +21,7 @@ const appSlice = createSlice({
     name: 'app',
     initialState,
     reducers: {
-        setdataImages: (
+        setDataImages: (
             state,
             action: PayloadAction<IResponseImage[]>) => {
                 state.dataImages = action.payload
@@ -39,5 +39,5 @@ const appSlice = createSlice({
     },
 })
 
-export const { setdataImages, setDisplayStyle, setCurrentTheme } = appSlice.actions
+export const { setDataImages, setDisplayStyle, setCurrentTheme } = appSlice.actions
 export default appSlice.reducer

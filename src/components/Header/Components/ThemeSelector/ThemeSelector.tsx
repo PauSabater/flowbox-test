@@ -1,7 +1,7 @@
 import styles from './themeSelector.module.scss'
 import { useSelector, useDispatch } from 'react-redux'
 import type { RootState, AppDispatch } from '@store/store'
-import { setDisplayStyle, type TImageThemes } from '@store/appSlice'
+import { setDataImages, setDisplayStyle, type TImageThemes } from '@store/appSlice'
 import { setCurrentTheme } from '@store/appSlice'
 import { setThemePersist } from '@store/persist'
 
@@ -18,12 +18,15 @@ interface IThemesSelector {
  */
 export function ThemeSelector({themes}: IThemesSelector) {
 
-    // const themes: TImageThemes = ['nature', 'architecture', 'animals', 'fashion', 'food']
-
     const currentTheme = useSelector((state: RootState) => state.app.currentTheme)
-    const dataImages = useSelector((state: RootState) => state.app.dataImages)
-    const displayStyle = useSelector((state: RootState) => state.app.displayStyle)
     const dispatch: AppDispatch = useDispatch()
+
+    const onThemeChange = (theme: TImageThemes)=> {
+        if (theme !== currentTheme) {
+            setThemePersist(theme)
+            dispatch(setCurrentTheme(theme))
+        }
+    }
 
     return (
         <div className={styles.themeSelector}>
@@ -35,10 +38,7 @@ export function ThemeSelector({themes}: IThemesSelector) {
                                 key={`btn-theme-${i}`}
                                 className={styles.button}
                                 data-selected={theme === currentTheme}
-                                onClick={() => {
-                                    setThemePersist(themes[i])
-                                    dispatch(setCurrentTheme(themes[i]))
-                                }}
+                                onClick={()=> onThemeChange(themes[i])}
                             >
                                 {theme}
                             </button>

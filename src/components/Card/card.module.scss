@@ -7,7 +7,7 @@
     width: 100%;
     height: var(--card-height, auto);
     overflow: hidden;
-    transition: height var(--tr-base);
+    // transition: height var(--tr-base);
     margin-bottom: 10px;
     border-radius: 10px;
     overflow: hidden;
@@ -17,6 +17,21 @@
     width: 100%;
     height: auto;
     margin-bottom: 2px;
+    opacity: 1;
+    // transition: opacity 3s;
+}
+
+.animateAppear {
+    animation: appear var(--tr-slow) forwards;
+}
+
+@keyframes appear {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 .link {
@@ -136,18 +151,18 @@
     transition: opacity var(--tr-base);
     height: 90px;
     opacity: 1;
-    transition: opacity var(--tr-slow) 0.3s, height var(--tr-fast) 0.2s;
+    transition: opacity var(--tr-fast) 0.3s, height var(--tr-fast) 0.2s;
 }
 
 div[data-display-style="masonry"] .cardContainer {
     .descriptionContainer {
         opacity: 0;
         height: 0;
-        transition: opacity var(--tr-fast) 0s, height var(--tr-fast) 0.2s;
+        transition: opacity 0s 0s, height var(--tr-fast) 0.2s;
     }
 }
 
-.cardContainer[data-display-style="grid"] {
+div[data-display-style="grid"] .cardContainer {
 
     .link .userInfo,
     .link .likesContainer {
@@ -161,6 +176,7 @@ div[data-display-style="masonry"] .cardContainer {
     .descriptionGrid {
         display: block;
         border-bottom: 10px solid transparent;
+        margin-top: 0;
     }
 }
 
@@ -211,6 +227,7 @@ div[data-display-style="slider"] .cardContainer {
     .container {
         height: var(--slider-height);
         width: var(--slider-height);
+        margin-bottom: 0;
     }
 
     .img[data-is-wider="true"] {

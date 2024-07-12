@@ -1,10 +1,10 @@
 import styles from './card.module.scss'
-import { useSelector, useDispatch } from 'react-redux'
-import type { RootState, AppDispatch } from '@store/store'
-import { setDisplayStyle } from '@store/appSlice'
-import type { IResponseImage } from 'src/pages/api/images'
-import { Link } from "react-router-dom"
-import { useEffect, useRef } from 'react'
+import { useSelector } from 'react-redux'
+import type { RootState } from '@store/store'
+import { type TDisplayStyle } from '@store/appSlice'
+import type { IResponseImage } from 'src/pages/api/generateApiResponse'
+import { useEffect, useRef, useState } from 'react'
+import gsap from 'gsap'
 
 export interface ICard extends IResponseImage {
     loading: 'eager' | 'lazy'
@@ -33,35 +33,80 @@ export function Card({
     isSlider
  }: ICard) {
 
+    const currentTheme = useSelector((state: RootState) => state.app.currentTheme)
     const displayStyle = useSelector((state: RootState) => state.app.displayStyle)
     const refContainer = useRef<HTMLDivElement>(null)
+    const refImage = useRef<HTMLImageElement>(null)
     const refDescriptionContainer = useRef<HTMLDivElement>(null)
+    const [animateImg, setAnimateImg] = useState<boolean>(false)
+    const [previousDisplay, setPreviousDisplay] = useState<TDisplayStyle>(currentTheme as TDisplayStyle)
+
 
     useEffect(()=> {
         const elContainer: HTMLDivElement | null = refContainer.current
 
+        // console.log("EFFECT")
+        // console.log('previous '+previousDisplay)
+        // console.log('next '+displayStyle)
+        setHeightauto(elContainer as HTMLDivElement)
+
+
         if (elContainer && displayStyle === 'grid') {
-            animateToFixedHeight(elContainer)
+            console.log("TO GRID")
+            animateToFixedHeight(elContainer, 0.5)
         }
 
         if (elContainer && displayStyle === 'masonry') {
-            animateToFullHeight(elContainer)
+            console.log("TO FULL HEIGHT")
+            animateToFullHeight(elContainer, 0.5)
         }
+        else {
+            console.log("TO AUTOO")
+            setHeightauto(elContainer as HTMLDivElement)
+        }
+
+        setPreviousDisplay(displayStyle)
     }, [displayStyle])
 
-    const animateToFixedHeight = (elToAnimate: HTMLElement)=> {
-        elToAnimate.style.setProperty('--card-height', elToAnimate.offsetHeight + 'px')
-        setTimeout(()=> elToAnimate.style.setProperty('--card-height', '15vw'), 100)
+
+    useEffect(()=> {
+        onThemeChange()
+    },[currentTheme])
+
+    const animateToFixedHeight = (elToAnimate: HTMLElement, duration: number)=> {
+        gsap.to(elToAnimate, {
+            height: '15vw',
+            duration: duration,
+            ease: "power1.out"
+        })
     }
 
-    const animateToFullHeight = (elToAnimate: HTMLElement)=> {
+    const animateToFullHeight = (elToAnimate: HTMLElement, duration: number)=> {
         // Since align center flexbox is used, only half of scroll height related to current height is considered
-        const scrollHeight = elToAnimate.scrollHeight * 2 - elToAnimate.offsetHeight
+        // const scrollHeight = elToAnimate.scrollHeight * 2 - elToAnimate.offsetHeight
+        // console.log(`${scrollHeight}px`)
+        // if(scrollHeight !== 0)
 
-        elToAnimate.style.setProperty('--card-height', elToAnimate.offsetHeight + 'px')
-        setTimeout(()=> {
-            elToAnimate.style.setProperty('--card-height', scrollHeight + 'px')
-        }, 100)
+        // gsap.to(elToAnimate, {
+        //     height: `${scrollHeight}px`,
+        //     duration: 1,
+        //     ease: "power1.out"
+        // })
+    }
+
+    const setHeightauto = (elToAnimate: HTMLDivElement)=> {
+        gsap.set(elToAnimate, {
+            height: 'auto'
+        })
+    }
+
+    const onThemeChange = ()=> {
+        const elContainer: HTMLDivElement | null = refContainer.current
+        const elImage: HTMLImageElement | null = refImage.current
+        if (elContainer && elImage) {
+            // elContainer.style.setProperty('--card-height', 'auto')
+            setHeightauto(elContainer)
+        }
     }
 
     return (
@@ -73,13 +118,16 @@ export function Card({
 
                 <div className={styles.link}>
                     <img
-                        className={styles.img}
+                        ref={refImage}
+                        onLoad={onThemeChange}
+                        className={`${styles.img} ${animateImg ? styles.animateAppear : ''}`}
                         width={width}
                         height={height}
                         src={urlMedium}
                         alt={alt}
                         loading={loading}
                         data-is-wider={parseInt(width) > parseInt(height)}
+                        data-animate={animateImg}
                     />
                     <div className={styles.userInfo}>
                         <ImageUser src={userImg}></ImageUser>

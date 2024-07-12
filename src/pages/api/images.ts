@@ -1,4 +1,8 @@
+import { generateApiResponse } from "./generateApiResponse";
+
 export async function GET({request}: {request: Request}) {
+
+    console.log("IN GET FUNCTION!!!")
 
     // Get the URL object from the request
     const url = new URL(request.url);
@@ -12,7 +16,18 @@ export async function GET({request}: {request: Request}) {
     const limitParam: string = params.get('limit') || '54'
     const limit: number = parseInt(limitParam)
 
-    const data = await import(`../../data/${category}.json`)
+
+    let data
+
+    if (category === 'animals') {
+        data = await import(`../../data/animals.json`)
+    }
+    if (category === 'fashion') {
+        data = await import(`../../data/fashion.json`)
+
+    if (!data) return new Response(
+        JSON.stringify({})
+    )
     // const objData = JSON.parse(data)
 
     let response: IResponseImage[] = []
@@ -38,10 +53,10 @@ export async function GET({request}: {request: Request}) {
 
     return new Response(
         JSON.stringify({
-            initial: data.results.length,
-            limit: limitParam,
-            length: response.length,
-            results: response,
+            // initial: data.results.length,
+            // limit: limitParam,
+            // length: response.length,
+            results: generateApiResponse(data),
         })
     )
 }

@@ -1,69 +1,92 @@
-import type { ICard } from '@components/Card/Card'
 import { Card } from '@components/Card/Card'
 import styles from './slider.module.scss'
-import { useSelector, useDispatch } from 'react-redux'
-import type { RootState, AppDispatch } from '@store/store'
-import { setDisplayStyle } from '@store/appSlice'
-import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react'
-import type { IResponseImage } from 'src/pages/api/images'
+import { useSelector } from 'react-redux'
+import type { RootState } from '@store/store'
+import {  useEffect, useLayoutEffect, useRef, useState } from 'react'
+import type { IResponseImage } from 'src/pages/api/generateApiResponse'
+import { Controls } from './components/Controls/Controls'
 
-type TCardsListLayout = 'grid' | 'list' | 'slider'
-
-interface ICardsList {
-    apiInitialResponse: IResponseImage[]
-}
 
 /**
  * Renders a list of Cards
  *
- * @param {IResponseImage[]}   props.apiInitialResponse     - Text describing the image
+ * @param {IResponseImage[]}   props.apiResponse     - Text describing the image
  */
-export function Slider({apiInitialResponse}: {apiInitialResponse: IResponseImage[]} ) {
+export function Slider({apiResponse}: {apiResponse: IResponseImage[]} ) {
 
+    const currentTheme = useSelector((state: RootState) => state.app.currentTheme)
     const displayStyle = useSelector((state: RootState) => state.app.displayStyle)
     const refContent = useRef(null)
 
     const [horizontalScrollPos, setHorizontalScrollPos] = useState(0)
     const [translateDistance, setTranslateDistance] = useState(0)
+    const [currentSlideNumber, setCurrentSlideNumber] = useState(0)
 
-    useEffect(()=> {
-        console.log("HELOOO")
-
-
-
-        const fetchData = async ()=> {
-            const response = await fetch(`https://api.unsplash.com/search/photos?query=${'nature'}&per_page=27&page=${'2'}`, {
-                headers: {
-                    Authorization: `Client-ID -FYr5Hviy6RDha69QhVn7ml4ZXHw6W2cgppbvGbNz08`
-                }
-        })
-
-            const data = await response.json()
-            const test = JSON.stringify(response)
-        }
-
-        // fetchData()
-    }, [])
 
     useLayoutEffect(()=> {
-        if (refContent.current) {
-            setTranslateDistance((refContent.current as HTMLElement).offsetHeight)
-        }
-    })
+        setTimeout(()=> {
+            const elContent: HTMLElement | null = refContent.current
+            if (elContent) setTranslateDistance((elContent as HTMLElement).offsetHeight)
+        }, 50)
+    }, [])
 
+    useEffect(()=> {
+        if (displayStyle === 'slider') {
+            setTimeout(()=> {
+                const elContent: HTMLElement | null = refContent.current
+                if (elContent) setTranslateDistance((elContent as HTMLElement).offsetHeight)
+            }, 50)
+        }
+    },[displayStyle])
 
     const getLoadingType = (currentPos: number): 'lazy' | 'eager' => {
         if (currentPos > 15) return 'lazy'
         return 'eager'
     }
 
-    const moveLeft = ()=> {
-        setHorizontalScrollPos(horizontalScrollPos + translateDistance + 10)
+    const moveLeft = (positions = 1)=> {
+        if (currentSlideNumber > 0) {
+            setCurrentSlideNumber(currentSlideNumber - positions)
+            setHorizontalScrollPos(horizontalScrollPos + (translateDistance * positions) + (10  * positions))
+        } else {
+            // Trigger bounce at the end:
+            triggerBouce(true)
+        }
     }
 
-    const moveRight = ()=> {
-        console.log("HEY CLICK")
-        setHorizontalScrollPos(horizontalScrollPos - translateDistance - 10)
+    const moveRight = (positions = 1)=> {
+        if (currentSlideNumber < (apiResponse.length - 1)) {
+            setCurrentSlideNumber(currentSlideNumber + positions)
+            setHorizontalScrollPos(horizontalScrollPos - (translateDistance * positions) - (10  * positions))
+        } else {
+            // Trigger bounce at the end:
+            triggerBouce(false)
+        }
+    }
+
+    const triggerBouce = (isLeft: boolean)=> {
+        // Trigger bounce at the end:
+        const finalPos = isLeft ? 0 : horizontalScrollPos
+        const distance = isLeft
+            ? horizontalScrollPos + (translateDistance / 5)
+            : horizontalScrollPos - (translateDistance / 5)
+
+        setHorizontalScrollPos(distance)
+        setTimeout(()=> {
+            setHorizontalScrollPos(finalPos)
+        }, 100)
+    }
+
+    const onRangeChange = (value: string)=> {
+        const numRange = parseInt(value)
+        const posDiference = numRange - currentSlideNumber
+
+        if (numRange > currentSlideNumber) {
+            moveRight(posDiference)
+        }
+        else {
+            moveLeft(posDiference * -1)
+        }
     }
 
     return (
@@ -77,7 +100,7 @@ export function Slider({apiInitialResponse}: {apiInitialResponse: IResponseImage
                 >
 
                     {
-                        apiInitialResponse.map((cardData, i)=> {
+                        apiResponse.map((cardData, i)=> {
                             return (
                                 <Card
                                     {...cardData}
@@ -90,35 +113,16 @@ export function Slider({apiInitialResponse}: {apiInitialResponse: IResponseImage
                     }
 
                 </div>
+                <div className={styles.gradient}></div>
             </div>
 
-            <div className={styles.controlsContainer}>
-                <button
-                    className={styles.arrowLeft}
-                    onClick={moveLeft}
-                >
-                    <Arrow />
-                </button>
-                <button
-                    className={styles.arrowRight}
-                    onClick={moveRight}
-                >
-                    <Arrow />
-                </button>
-
-            </div>
-        </div>
-    )
-}
-
-const Arrow = ()=> {
-    return (
-        <svg viewBox="0 0 27 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1.55514 17.7814L23.8753 1.76029C24.8678 1.04792 26.25 1.75722 26.25 2.97887L26.25 35.0211C26.25 36.2428 24.8678 36.9521 23.8753 36.2397L1.55514 20.2186C0.721383 19.6201 0.721384 18.3799 1.55514 17.7814Z"
-                fill="transparent"
-                stroke="var(--c-grey-light)"
-                strokeWidth={1}
+            <Controls
+                onClickLeft={moveLeft}
+                onClickRight={moveRight}
+                currentPos={currentSlideNumber}
+                totalPos={apiResponse.length}
+                callbackRangeChange={onRangeChange}
             />
-        </svg>
+        </div>
     )
 }
