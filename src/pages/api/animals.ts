@@ -1,6 +1,6 @@
 import { generateApiResponse } from "./generateApiResponse"
 
-export async function GET({request}: {request: Request}) {
+export async function GET() {
 
     let data = await import(`../../data/animals.json`)
 

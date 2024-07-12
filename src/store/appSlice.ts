@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
-import type { IResponseImage } from 'src/pages/api/images'
+import type { IResponseImage } from 'src/pages/api/generateApiResponse'
 
 export type TImageThemes = 'nature' | 'architecture' | 'food' | 'fashion' | 'animals'
 export type TDisplayStyle = 'grid' | 'masonry' | 'list' | 'slider'

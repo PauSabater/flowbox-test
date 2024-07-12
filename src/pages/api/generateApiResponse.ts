@@ -1,5 +1,3 @@
-
-
 export function generateApiResponse(dataReponse: any) {
 
     if (!dataReponse) return new Response(
@@ -8,7 +6,7 @@ export function generateApiResponse(dataReponse: any) {
 
     let response: IResponseImage[] = []
 
-    for(const [i, item] of dataReponse.results.entries()) {
+    for(const item of dataReponse.results.entries()) {
         response.push({
             width: item.width.toString(),
             height: item.height.toString(),

@@ -1,11 +1,10 @@
 import styles from './themeSelector.module.scss'
 import { useSelector, useDispatch } from 'react-redux'
 import type { RootState, AppDispatch } from '@store/store'
-import { setDataImages, setDisplayStyle, type TImageThemes } from '@store/appSlice'
+import { type TImageThemes } from '@store/appSlice'
 import { setCurrentTheme } from '@store/appSlice'
 import { setThemePersist } from '@store/persist'
 
-type TCardsListLayout = 'grid' | 'list' | 'slider'
 
 interface IThemesSelector {
     themes: TImageThemes[]

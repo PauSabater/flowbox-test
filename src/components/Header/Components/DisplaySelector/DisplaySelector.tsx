@@ -1,8 +1,7 @@
 import styles from './displaySelector.module.scss'
 import { useSelector, useDispatch } from 'react-redux'
 import type { RootState, AppDispatch } from '@store/store'
-import { setDisplayStyle, type TDisplayStyle, type TImageThemes } from '@store/appSlice'
-import { setCurrentTheme } from '@store/appSlice'
+import { setDisplayStyle, type TDisplayStyle } from '@store/appSlice'
 import { setDisplaStylePersist } from '@store/persist'
 
 
@@ -13,9 +12,6 @@ import { setDisplaStylePersist } from '@store/persist'
 export function DisplaySelector() {
 
     const displayStyles: TDisplayStyle[] = ['masonry', 'grid', 'list', 'slider']
-
-    const currentTheme = useSelector((state: RootState) => state.app.currentTheme)
-    const dataImages = useSelector((state: RootState) => state.app.dataImages)
     const displayStyle = useSelector((state: RootState) => state.app.displayStyle)
     const dispatch: AppDispatch = useDispatch()
 

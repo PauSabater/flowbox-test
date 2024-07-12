@@ -2,7 +2,7 @@ import { Card } from '@components/Card/Card'
 import styles from './cardsList.module.scss'
 import { useSelector } from 'react-redux'
 import type { RootState } from '@store/store'
-import { Fragment, useEffect } from 'react'
+import { Fragment } from 'react'
 import type { IResponseImage } from 'src/pages/api/generateApiResponse'
 
 /**

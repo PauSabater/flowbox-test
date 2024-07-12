@@ -14,7 +14,6 @@ import { Controls } from './components/Controls/Controls'
  */
 export function Slider({apiResponse}: {apiResponse: IResponseImage[]} ) {
 
-    const currentTheme = useSelector((state: RootState) => state.app.currentTheme)
     const displayStyle = useSelector((state: RootState) => state.app.displayStyle)
     const refContent = useRef(null)
 
