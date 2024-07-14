@@ -88,7 +88,8 @@
     height: 16px;
     width: 300px;
     border-radius: 15px;
-    background: #ddd;
+    border: 1px solid var(--c-br-transparent);
+    background: var(--bg-range);
     outline: none;
     margin: 0;
     padding: 0;

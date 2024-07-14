@@ -1,8 +1,11 @@
 ---
 import '@fontsource-variable/inter'
+
 interface Props {
 	title: string;
 }
+
+// const imagesToCache: string[] = getImagesToCache()
 
 const { title } = Astro.props;
 ---
@@ -16,6 +19,14 @@ const { title } = Astro.props;
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		<!-- <script>
+			import { imagesToCache } from '../utils/constants'
+				imagesToCache.forEach(function(imageUrl) {
+					var img = new Image()
+					img.src = imageUrl
+				})
+
+		</script> -->
 	</head>
 	<body>
 		<slot />

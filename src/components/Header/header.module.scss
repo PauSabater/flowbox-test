@@ -9,17 +9,22 @@
     left: 0;
     height: var(--header-height-total);
     width: 100vw;
-    background: white;
+    background: var(--page-bg);
     border-bottom: 1px dotted var(--c-grey-light);
     z-index: 10;
 }
 
 .container {
+    position: relative;
     display: flex;
     align-items: center;
     height: var(--header-height);
     width: var(--page-content-width);
     margin: 0 auto;
+
+    input {
+        margin-left: 50px;
+    }
 }
 
 .containerSelectors {
@@ -27,7 +32,6 @@
     flex-direction: row;
     width: var(--page-content-width);
     margin: 0 auto;
-    background: white;
 }
 
 @include mixins.mobile-tablet {

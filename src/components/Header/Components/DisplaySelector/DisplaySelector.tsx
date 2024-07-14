@@ -6,19 +6,19 @@ import { setDisplaStylePersist } from '@store/persist'
 
 
 /**
- * Renders the themes buttons to select the types of images to display
+ * Renders a selector to change the display style of the images
  *
+ * @return {JSX.Element} - DisplaySelector component
  */
-export function DisplaySelector() {
+export function DisplaySelector(): JSX.Element {
 
     const displayStyles: TDisplayStyle[] = ['masonry', 'grid', 'list', 'slider']
-    const displayStyle = useSelector((state: RootState) => state.app.displayStyle)
+    const displayStyle = useSelector((state: RootState) => state.app.displayStyle) || 'masonry'
     const dispatch: AppDispatch = useDispatch()
 
     return (
         <div className={styles.themeSelector}>
             <div className={styles.container}>
-                <p>Display style:</p>
             {
                 displayStyles.map((displayName: string, i)=> {
                     return (
@@ -41,8 +41,14 @@ export function DisplaySelector() {
     )
 }
 
-const DisplayIcon = ({src}: {src: string})=> {
+/**
+ * Renders an icon
+ *
+ * @param  {string}         props.src      - Icon source
+ * @return {JSX.Element} - DisplayIcon component
+ */
+const DisplayIcon = ({src}: {src: string}): JSX.Element=> {
     return (
-        <img className={styles.icon} src={src}></img>
+        <img data-inversed className={styles.icon} src={src}></img>
     )
 }

@@ -3,6 +3,7 @@
 
     position: relative;
     display: none;
+    overflow: hidden;
 }
 
 .sliderContainer {
@@ -27,5 +28,5 @@
     height: var(--slider-height);
     width: 20px;
     opacity: 1;
-    background: linear-gradient(270deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 100%);
+    background: var(--br-slider-gradient);
 }

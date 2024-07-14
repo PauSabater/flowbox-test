@@ -1,0 +1,51 @@
+@use '../../styles/mixins.scss';
+
+.searchBar {
+    display: flex;
+    align-items: center;
+}
+
+.input {
+    box-sizing: border-box;
+    height: 40px;
+    width: clamp(300px, 40vw, 1000px);
+    background-color: var(--c-grey-lightest);
+    outline: none;
+    border: 1px dotted var(--c-br-transparent);
+    border-right: none;
+    border-radius: 100px 0px 0px 100px;
+    padding: 0 40px;
+    font-size: var(--fs-sm);
+    transition: border-color var(--tr-base), background-color var(--tr-base);
+
+    &:hover {
+        background: rgb(239, 239, 239);
+    }
+
+    &:focus {
+        border: 1px dotted var(--c-grey);;
+    }
+}
+
+.button {
+    cursor: pointer;
+    height: 40px;
+    border-radius: 0px 100px 100px 0px;
+    background-color: var(--c-btn-search-bar);
+    border: 1px dotted var(--c-br-transparent);
+    font-size: var(--fs-sm);
+    font-weight: 500;
+    padding: 0 20px;
+    margin: 0;
+    transition: border-color var(--tr-base), background-color var(--tr-base);
+
+    &:hover {
+        background-color: rgb(218, 218, 218);
+    }
+}
+
+@include mixins.mobile-tablet {
+    .searchBar {
+        display: none;
+    }
+}

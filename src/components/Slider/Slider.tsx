@@ -1,4 +1,4 @@
-import { Card } from '@components/Card/Card'
+import { Card } from '../../components/Card/Card'
 import styles from './slider.module.scss'
 import { useSelector } from 'react-redux'
 import type { RootState } from '@store/store'
@@ -8,18 +8,26 @@ import { Controls } from './components/Controls/Controls'
 
 
 /**
- * Renders a list of Cards
+ * Renders a slider with a list of Cards
  *
- * @param {IResponseImage[]}   props.apiResponse     - Text describing the image
+ * @param {IResponseImage[]}   props.apiResponse     - Images data from the API
+ * @return {JSX.Element} - Slider component
  */
-export function Slider({apiResponse}: {apiResponse: IResponseImage[]} ) {
+export function Slider({apiResponse}: {apiResponse: IResponseImage[]} ): JSX.Element {
 
     const displayStyle = useSelector((state: RootState) => state.app.displayStyle)
     const refContent = useRef(null)
+
+    // Keeps track of the horizontal scroll position
     const [horizontalScrollPos, setHorizontalScrollPos] = useState(0)
+    // Keeps track of the distance to translate the slider
     const [translateDistance, setTranslateDistance] = useState(0)
+    // Keeps track of the current slide number
     const [currentSlideNumber, setCurrentSlideNumber] = useState(0)
 
+    /*
+     * Set the translate distance after the content is loaded
+     */
     useLayoutEffect(()=> {
         setTimeout(()=> {
             const elContent: HTMLElement | null = refContent.current
@@ -27,6 +35,9 @@ export function Slider({apiResponse}: {apiResponse: IResponseImage[]} ) {
         }, 50)
     }, [])
 
+    /*
+     * Set the translate distance after the display style changes
+     */
     useEffect(()=> {
         if (displayStyle === 'slider') {
             setTimeout(()=> {
@@ -36,12 +47,25 @@ export function Slider({apiResponse}: {apiResponse: IResponseImage[]} ) {
         }
     },[displayStyle])
 
+
+    /**
+     * Get the loading type for the image
+     *
+     * @param {number} currentPos - Current position of the card
+     * @return {'lazy' | 'eager'} - Loading type
+     */
     const getLoadingType = (currentPos: number): 'lazy' | 'eager' => {
         if (currentPos > 15) return 'lazy'
         return 'eager'
     }
 
-    const moveLeft = (positions = 1)=> {
+    /**
+     * Move the slider to the left
+     *
+     * @param {number} positions - Number of positions to move
+     * @return {void}
+     */
+    const moveLeft = (positions: number = 1): void=> {
         if (currentSlideNumber > 0) {
             setCurrentSlideNumber(currentSlideNumber - positions)
             setHorizontalScrollPos(horizontalScrollPos + (translateDistance * positions) + (10  * positions))
@@ -51,7 +75,13 @@ export function Slider({apiResponse}: {apiResponse: IResponseImage[]} ) {
         }
     }
 
-    const moveRight = (positions = 1)=> {
+    /**
+     * Move the slider to the right
+     *
+     * @param {number} positions - Number of positions to move
+     * @return {void}
+     */
+    const moveRight = (positions: number = 1): void=> {
         if (currentSlideNumber < (apiResponse.length - 2)) {
             setCurrentSlideNumber(currentSlideNumber + positions)
             setHorizontalScrollPos(horizontalScrollPos - (translateDistance * positions) - (10  * positions))
@@ -61,7 +91,13 @@ export function Slider({apiResponse}: {apiResponse: IResponseImage[]} ) {
         }
     }
 
-    const triggerBouce = (isLeft: boolean)=> {
+    /**
+     * Trigger bounce effect
+     *
+     * @param isLeft
+     * @return {void}
+     */
+    const triggerBouce = (isLeft: boolean): void=> {
         // Trigger bounce at the end:
         const finalPos = isLeft ? 0 : horizontalScrollPos
         const distance = isLeft
@@ -74,6 +110,11 @@ export function Slider({apiResponse}: {apiResponse: IResponseImage[]} ) {
         }, 100)
     }
 
+    /**
+     * Actions on range change
+     *
+     * @param {string} value  - Value of the range
+     */
     const onRangeChange = (value: string)=> {
         const numRange = parseInt(value)
         const posDiference = numRange - currentSlideNumber

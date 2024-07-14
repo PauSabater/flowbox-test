@@ -8,8 +8,11 @@ import { Main } from '@components/Main/Main'
 
 /**
  * Renders the root component for the aplication
+ *
+ * @param {IResponseImage[]}   props.apiInitialResponse     - Array of images to display from the API
+ * @return {JSX.Element} - App component
  */
-export function App({apiInitialResponse}: {apiInitialResponse: IResponseImage[]}) {
+export function App({apiInitialResponse}: {apiInitialResponse: IResponseImage[]}): JSX.Element {
 
     return (
         <div className={styles.container}>
@@ -18,9 +21,7 @@ export function App({apiInitialResponse}: {apiInitialResponse: IResponseImage[]}
                 <Header
                     themes={['nature', 'architecture', 'animals', 'fashion', 'food']}
                 />
-                <main className={styles.main}>
-                    <Main apiInitialResponse={apiInitialResponse} />
-                </main>
+                <Main apiInitialResponse={apiInitialResponse} />
             </Provider>
 
         </div>

@@ -1,9 +1,9 @@
 import styles from './themeSelector.module.scss'
 import { useSelector, useDispatch } from 'react-redux'
 import type { RootState, AppDispatch } from '@store/store'
-import { type TImageThemes } from '@store/appSlice'
+import { setSeachValue, type TImageThemes } from '@store/appSlice'
 import { setCurrentTheme } from '@store/appSlice'
-import { setThemePersist } from '@store/persist'
+import { setSearchValuePersist, setThemePersist } from '@store/persist'
 
 
 interface IThemesSelector {
@@ -17,12 +17,20 @@ interface IThemesSelector {
  */
 export function ThemeSelector({themes}: IThemesSelector) {
 
-    const currentTheme = useSelector((state: RootState) => state.app.currentTheme) || 'nature'
+    const currentTheme = useSelector((state: RootState) => state.app.currentTheme) || ''
     const dispatch: AppDispatch = useDispatch()
 
-    const onThemeChange = (theme: TImageThemes)=> {
+    /**
+     * Change the theme, storing the value in local storage and redux
+     *
+     * @param  {TImageThemes} theme - Theme to change
+     * @return {void}
+     */
+    const onThemeChange = (theme: TImageThemes): void => {
         if (theme !== currentTheme) {
             setThemePersist(theme)
+            setSearchValuePersist('')
+            setSeachValue('')
             dispatch(setCurrentTheme(theme))
         }
     }

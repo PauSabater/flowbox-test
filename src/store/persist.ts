@@ -13,6 +13,10 @@ export const setImagesPersist = (value: string)=> {
     localStorage.setItem('images', value)
 }
 
+export const setSearchValuePersist = (value: string)=> {
+    localStorage.setItem('search-value', value)
+}
+
 export const getDisplaStylePersist = ()=> {
     return localStorage.getItem('display-style') || ''
 }
@@ -23,9 +27,13 @@ export const getThemePersist = ()=> {
 
 export const getImagesPersist = (): IResponseImage[] => {
     const imagesLocalstorage = localStorage.getItem('images')
-    return imagesLocalstorage
+    return imagesLocalstorage !== 'undefined' && imagesLocalstorage
         ? JSON.parse(imagesLocalstorage)
         : ''
+}
+
+export const getSearchValuePersist = (): string => {
+    return localStorage.getItem('search-value') || ''
 }
 
 

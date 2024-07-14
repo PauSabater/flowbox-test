@@ -1,7 +1,7 @@
 import styles from './card.module.scss'
-import { useSelector } from 'react-redux'
-import type { RootState } from '@store/store'
-import { type TDisplayStyle } from '@store/appSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import type { AppDispatch, RootState } from '@store/store'
+import { setModalImageSrc, type TDisplayStyle } from '@store/appSlice'
 import type { IResponseImage } from 'src/pages/api/generateApiResponse'
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
@@ -12,35 +12,50 @@ export interface ICard extends IResponseImage {
 }
 
 /**
- * Renders an Card with an image and an optionally displayed text
+ * Renders an Card with an image and the corresponding parameters to show depending on the view
  *
  * @param {string}         props.description      - Text describing the image
- * @param {string}         props.srcImage         - Source for the image
+ * @param {string}         props.user             - User name
+ * @param {string}         props.userImg          - User image
+ * @param {string}         props.likes            - Number of likes
+ * @param {string}         props.loading          - Image loading type
+ * @param {string}         props.isSlider         - If the card is in a slider
+ * @param {string}         props.width            - Image width
+ * @param {string}         props.height           - Image height
+ * @param {string}         props.alt              - Image alt
+ * @param {string}         props.urlMedium        - Image url medium
+ *
+ * @return {JSX.Element} - Card component
  */
 export function Card({
     width,
     height,
-    // created,
-    // updated,
     description,
     alt,
-    // urlSmall,
     urlMedium,
     user,
     userImg,
     likes,
     loading,
     isSlider
- }: ICard) {
+ }: ICard): JSX.Element {
 
+    // Store values:
     const currentTheme = useSelector((state: RootState) => state.app.currentTheme)
     const displayStyle = useSelector((state: RootState) => state.app.displayStyle)
+
     const refContainer = useRef<HTMLDivElement>(null)
     const refImage = useRef<HTMLImageElement>(null)
     const refDescriptionContainer = useRef<HTMLDivElement>(null)
-    const [previousDisplay, setPreviousDisplay] = useState<TDisplayStyle>(currentTheme as TDisplayStyle)
-    // const [gridHeight, setGridHeight] =
 
+    const dispatch: AppDispatch = useDispatch()
+
+    // This state is used to animate the height of the container when the display style changes
+    const [previousDisplay, setPreviousDisplay] = useState<TDisplayStyle>(currentTheme as TDisplayStyle)
+
+    /**
+     * Actions on display style change
+     */
     useEffect(()=> {
         const elContainer: HTMLDivElement | null = refContainer.current
         const duration = previousDisplay === 'list' || previousDisplay === 'slider' ? 0 : 0.3
@@ -56,6 +71,9 @@ export function Card({
         setPreviousDisplay(displayStyle)
     }, [displayStyle])
 
+    /**
+     * Actions on resize event for masonry display
+     */
     useEffect(()=> {
         addEventListener("resize", (event) => {
             if (displayStyle === 'masonry' && refContainer.current) {
@@ -66,16 +84,28 @@ export function Card({
         onresize = (event) => {}
     })
 
-
+    /**
+     * Actions on theme change
+     */
     useEffect(()=> {
         onThemeChange()
     },[currentTheme])
 
-    const isMobileTablet = ()=> {
+    /**
+     * Actions on theme change
+     * @return {boolean} - If the device is mobile or tablet
+     */
+    const isMobileTablet = (): boolean => {
         return window.innerWidth > 1023
     }
 
-    const animateToFixedHeight = (elToAnimate: HTMLElement, duration: number)=> {
+    /**
+     * Animate the height of the container to a fixed value
+     * @param {HTMLElement} elToAnimate  - Element to animate
+     * @param {number} duration          - Animation duration
+     * @return {void}
+     */
+    const animateToFixedHeight = (elToAnimate: HTMLElement, duration: number): void=> {
         const isMobile = window.innerWidth > 1023
         gsap.to(elToAnimate, {
             height: isMobileTablet() ? '15vw' : '60vw',
@@ -84,6 +114,13 @@ export function Card({
         })
     }
 
+    /**
+     * Animates the height of the container to the full height of the content
+     *
+     * @param {HTMLElement} elToAnimate  - Element to animate
+     * @param {duration} duration        - Animation duration
+     * @return {void}
+     */
     const animateToFullHeight = (elToAnimate: HTMLElement, duration: number)=> {
         // Since align center flexbox is used, only half of scroll height related to current height is considered
         const scrollHeight = elToAnimate.scrollHeight * 2 - elToAnimate.offsetHeight
@@ -94,27 +131,48 @@ export function Card({
             duration: duration,
             ease: "power1.out"
         })
-
-        // setTimeout(()=> {
-        //     gsap.set(elToAnimate, {
-        //         height: `auto`,
-        //     })
-        // })
     }
 
-    const setHeightauto = (elToAnimate: HTMLDivElement)=> {
+    /**
+     * Sets the height of the element to auto
+     *
+     * @param {HTMLDivElement}  elToAnimate  - Element to animate
+     * @return {void}
+     */
+    const setHeightauto = (elToAnimate: HTMLDivElement): void=> {
         gsap.set(elToAnimate, {
             height: 'auto'
         })
     }
 
+    /**
+     * Actions on theme change
+    */
     const onThemeChange = ()=> {
         const elContainer: HTMLDivElement | null = refContainer.current
         const elImage: HTMLImageElement | null = refImage.current
         if (elContainer && elImage) {
-            // elContainer.style.setProperty('--card-height', 'auto')
             setHeightauto(elContainer)
         }
+    }
+
+    /**
+     * Actions on image load
+     */
+    const onImgLoad = ()=> {
+        gsap.fromTo(refImage.current, {opacity: 0}, {opacity: 1, duration: 0.5})
+
+        if (currentTheme === '' && displayStyle === 'masonry') {
+            const elContainer: HTMLDivElement | null = refContainer.current
+            if (elContainer) setHeightauto(elContainer)
+        }
+    }
+
+    /**
+     * Actions on image container click, when the image is clicked, the modal is opened
+     */
+    const onImgContainerClick = ()=> {
+        dispatch(setModalImageSrc(urlMedium))
     }
 
     return (
@@ -124,10 +182,10 @@ export function Card({
                 className={styles.container}
             >
 
-                <div className={styles.link}>
+                <div onClick={onImgContainerClick} className={styles.link}>
                     <img
                         ref={refImage}
-                        onLoad={onThemeChange}
+                        onLoad={onImgLoad}
                         className={`${styles.img}`}
                         width={width}
                         height={height}
@@ -136,11 +194,11 @@ export function Card({
                         loading={loading}
                         data-is-wider={parseInt(width) > parseInt(height)}
                     />
+                    <div className={styles.overlay}></div>
                     <div className={styles.userInfo}>
                         <ImageUser src={userImg}></ImageUser>
                         <p>{user}</p>
                     </div>
-                    <div className={styles.overlay}></div>
                     <LikesContainer num={likes}/>
                 </div>
             </div>
@@ -166,6 +224,59 @@ export function Card({
     )
 }
 
+/**
+ * Renders the number of likes and the like icon
+ *
+ * @param {string} num - Number of likes
+ * @return {JSX.Element} - Likes container
+ */
+const LikesContainer = ({num}: {num: string}): JSX.Element=> {
+    return (
+        <div className={styles.likesContainer}>
+            <p className={styles.likesNum}>{num}</p>
+            <ImageLike/>
+        </div>
+    )
+}
+
+/**
+ * Renders the like icon
+ *
+ * @return {JSX.Element} - Like icon
+ */
+const ImageLike = (): JSX.Element=> {
+    return (
+        <img
+            width="20"
+            height="20"
+            src={'/like.svg'}
+            loading='lazy'
+            data-brighter
+        />
+    )
+}
+
+/**
+ * Renders the user image
+ *
+ * @param {string} src - Image source
+ * @return {JSX.Element} - User image
+ */
+const ImageUser = ({src}: {src: string}): JSX.Element=> {
+    return (
+        <img
+            height="35"
+            width="35"
+            src={src}
+            className={styles.imgUser}
+            loading={'lazy'}
+        />
+    )
+}
+
+/**
+ * Returns a dummy text
+ */
 const getDummyText = (i: number)=> {
 
     const texts = [
@@ -177,36 +288,4 @@ const getDummyText = (i: number)=> {
     ]
 
     return texts[i]
-
-}
-
-
-const LikesContainer = ({num}: {num: string})=> {
-    return (
-        <div className={styles.likesContainer}>
-            <p className={styles.likesNum}>{num}</p>
-            <ImageLike/>
-        </div>
-    )
-}
-
-const ImageLike = ()=> {
-    return (
-        <img
-            width="20"
-            height="20"
-            src={'/like.svg'}
-        />
-    )
-}
-
-const ImageUser = ({src}: {src: string})=> {
-    return (
-        <img
-            height="35"
-            width="35"
-            src={src}
-            className={styles.imgUser}
-        />
-    )
 }

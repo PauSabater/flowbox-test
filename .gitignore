@@ -7,6 +7,9 @@ dist/
 # vercel files
 .vercel/
 
+# coverage files
+coverage/
+
 # dependencies
 node_modules/
 

@@ -4,10 +4,15 @@
         "jsx": "react-jsx",
         "jsxImportSource": "react",
         "baseUrl": ".",
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "verbatimModuleSyntax": false,
+        "target": "es2022",
         "paths": {
             "@components/*": ["src/components/*"],
             "@store/*": ["src/store/*"],
-            "@styles/*": ["src/styles/*"],
+            "@styles/*": ["src/styles/*"]
         }
-    }
+    },
+    "include": ["./src/**/*.tsx", "./src/**/*.ts", "jest.config.js", "src/tests/Slider.test.___", "src/tests/Slider.js____"]
 }
