@@ -24,5 +24,10 @@ Jest has been used for tests, which can be run with the following command:
 
 ## Api calls
 Since Unsplash has a limit of 50 requests per hour, we have added 5 custom api endpoints with saved responses from Unsplash:
-https://flowbox-test-pau-sabater.vercel.app/api/['nature', 'architecture', 'animals', 'fashion', 'food']
-The real Unsplash request is made with the seache component.
+https://flowbox-test-pau-sabater.vercel.app/api/nature
+https://flowbox-test-pau-sabater.vercel.app/api/architecture
+https://flowbox-test-pau-sabater.vercel.app/api/animals
+https://flowbox-test-pau-sabater.vercel.app/api/fashion
+https://flowbox-test-pau-sabater.vercel.app/api/food
+
+The real Unsplash request is made with the search component.

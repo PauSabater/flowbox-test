@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux'
 import type { AppDispatch } from '@store/store'
 import { setDataImages } from '@store/appSlice'
 import { setImagesPersist } from '@store/persist'
-import dotenv from 'dotenv'
 
 
 /**

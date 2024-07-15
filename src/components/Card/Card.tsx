@@ -1,7 +1,7 @@
 import styles from './card.module.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import type { AppDispatch, RootState } from '@store/store'
-import { setModalImageSrc, type TDisplayStyle } from '@store/appSlice'
+import { setModalImageSrc, type TDisplayStyle } from '../../store/appSlice'
 import type { IResponseImage } from 'src/pages/api/generateApiResponse'
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
@@ -75,7 +75,7 @@ export function Card({
      * Actions on resize event for masonry display
      */
     useEffect(()=> {
-        addEventListener("resize", (event) => {
+        addEventListener("resize", () => {
             if (displayStyle === 'masonry' && refContainer.current) {
                 setHeightauto(refContainer.current)
             }
@@ -104,7 +104,6 @@ export function Card({
      * @return {void}
      */
     const animateToFixedHeight = (elToAnimate: HTMLElement, duration: number): void=> {
-        const isMobile = window.innerWidth > 1023
         gsap.to(elToAnimate, {
             height: isMobileTablet() ? '15vw' : '60vw',
             duration: duration,
@@ -119,7 +118,7 @@ export function Card({
      * @param {duration} duration        - Animation duration
      * @return {void}
      */
-    const animateToFullHeight = (elToAnimate: HTMLElement, duration: number)=> {
+    const animateToFullHeight = (elToAnimate: HTMLElement, duration: number): void => {
         // Since align center flexbox is used, only half of scroll height related to current height is considered
         const scrollHeight = elToAnimate.scrollHeight * 2 - elToAnimate.offsetHeight
         if(scrollHeight !== 0)
@@ -174,7 +173,7 @@ export function Card({
     }
 
     return (
-        <div className={styles.cardContainer}>
+        <div className={styles.cardContainer} data-card>
             <div
                 ref={refContainer}
                 className={styles.container}

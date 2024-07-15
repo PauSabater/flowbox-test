@@ -1,9 +1,10 @@
+@use '../../styles/mixins.scss';
+
 .slider {
     --slider-height: 67vh;
 
     position: relative;
     display: none;
-    overflow: hidden;
 }
 
 .sliderContainer {
@@ -29,4 +30,10 @@
     width: 20px;
     opacity: 1;
     background: var(--br-slider-gradient);
+}
+
+@include mixins.mobile-tablet {
+    .slider {
+        overflow: hidden;
+    }
 }

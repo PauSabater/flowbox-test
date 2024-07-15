@@ -1,8 +1,5 @@
 export function generateApiResponse(dataReponse: any) {
 
-    console.log("JHEEEE[======")
-    console.log(dataReponse)
-
     if (!dataReponse) return new Response(
         JSON.stringify({})
     )

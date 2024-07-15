@@ -24,11 +24,15 @@ export function Slider({apiResponse}: {apiResponse: IResponseImage[]} ): JSX.Ele
     const [translateDistance, setTranslateDistance] = useState(0)
     // Keeps track of the current slide number
     const [currentSlideNumber, setCurrentSlideNumber] = useState(0)
+    // Keeps track of the current window height to reset the slider
+    const [currentWindowHeight, setCurrentWindowHeight] = useState(0)
 
     /*
      * Set the translate distance after the content is loaded
      */
     useLayoutEffect(()=> {
+        setCurrentWindowHeight(window.innerHeight)
+
         setTimeout(()=> {
             const elContent: HTMLElement | null = refContent.current
             if (elContent) setTranslateDistance((elContent as HTMLElement).offsetHeight)
@@ -47,6 +51,20 @@ export function Slider({apiResponse}: {apiResponse: IResponseImage[]} ): JSX.Ele
         }
     },[displayStyle])
 
+    /**
+     * Actions on resize to reset translate distance on vertical window resize
+     */
+    useEffect(()=> {
+        addEventListener("resize", () => {
+            if (displayStyle === 'slider' && refContent.current && currentWindowHeight !== window.innerHeight) {
+                const slideDistance = (refContent.current as HTMLElement).offsetHeight
+                setTranslateDistance(slideDistance)
+                setHorizontalScrollPos(0)
+                setCurrentSlideNumber(0)
+                setCurrentWindowHeight(window.innerHeight)
+            }
+        })
+    })
 
     /**
      * Get the loading type for the image

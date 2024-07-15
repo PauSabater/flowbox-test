@@ -1,5 +1,4 @@
 import type { IResponseImage } from "src/pages/api/generateApiResponse"
-import type { TDisplayStyle } from "./appSlice"
 
 export const setDisplaStylePersist = (value: string)=> {
     localStorage.setItem('display-style', value)
