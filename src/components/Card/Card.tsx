@@ -53,6 +53,8 @@ export function Card({
     // This state is used to animate the height of the container when the display style changes
     const [previousDisplay, setPreviousDisplay] = useState<TDisplayStyle>(currentTheme as TDisplayStyle)
 
+    const [displayLoader, setDisplayLoader] = useState<boolean>(false)
+
     /**
      * Actions on display style change
      */
@@ -81,6 +83,14 @@ export function Card({
             }
         })
     })
+
+    /**
+     * On url change the skeletton is displayed until the image loads
+     */
+    useEffect(()=> {
+        setDisplayLoader(true)
+        gsap.set(refImage.current, {opacity: 0})
+    }, [urlMedium])
 
     /**
      * Actions on theme change
@@ -157,6 +167,7 @@ export function Card({
      * Actions on image load
      */
     const onImgLoad = ()=> {
+        setDisplayLoader(false)
         gsap.fromTo(refImage.current, {opacity: 0}, {opacity: 1, duration: 0.5})
 
         if (currentTheme === '' && displayStyle === 'masonry') {
@@ -191,6 +202,7 @@ export function Card({
                         loading={loading}
                         data-is-wider={parseInt(width) > parseInt(height)}
                     />
+                    <div className={styles.loader} data-display={displayLoader}></div>
                     <div className={styles.overlay}></div>
                     <div className={styles.userInfo}>
                         <ImageUser src={userImg}></ImageUser>
