@@ -1,5 +1,8 @@
 export function generateApiResponse(dataReponse: any) {
 
+    console.log("JHEEEE[======")
+    console.log(dataReponse)
+
     if (!dataReponse) return new Response(
         JSON.stringify({})
     )
@@ -8,17 +11,17 @@ export function generateApiResponse(dataReponse: any) {
 
     for(const item of dataReponse.results.values()) {
         response.push({
-            width: item.width.toString() || '',
-            height: item.height.toString(),
-            created: item.created_at,
-            updated: item.updated_at,
-            description: item.description || '',
-            alt: item.alt_description,
-            urlSmall: item.urls.small,
-            urlMedium: item.urls.regular,
-            user: `${item.user.first_name || ''} ${item.user.last_name || ''}`,
-            userImg: item.user.profile_image.medium,
-            likes: item.likes.toString(),
+            width: item?.width?.toString() || '',
+            height: item?.height?.toString(),
+            created: item?.created_at || '',
+            updated: item?.updated_at || '',
+            description: item?.description || '',
+            alt: item?.alt_description || '',
+            urlSmall: item?.urls?.small || '',
+            urlMedium: item?.urls?.regular || '',
+            user: `${item?.user.first_name || ''} ${item?.user.last_name || ''}`,
+            userImg: item?.user.profile_image?.medium || '',
+            likes: item?.likes.toString() || '',
         })
     }
 

@@ -4,7 +4,7 @@ This project is made with React combined with Astro to generate the static files
 Redux is used to manage the state of the app and scss modules are used for styling.
 Custom api endpoints have been created to mock the images data response, which is initially extracted from [Unsplash.](https://unsplash.com/developers).
 
-## 🚀 Run de project
+## Run de project
 
 The following commands are used to run the project:
 
@@ -15,4 +15,14 @@ The following commands are used to run the project:
 | `npm run build`           | Build your production site to `./dist/`          |
 | `npm run preview`         | Preview your build locally, before deploying     |
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+
+
+## Testing
+Jest has been used for tests, which can be run with the following command:
+
+`npm run test`
+
+## Api calls
+Since Unsplash has a limit of 50 requests per hour, we have added 5 custom api endpoints with saved responses from Unsplash:
+https://flowbox-test-pau-sabater.vercel.app/api/['nature', 'architecture', 'animals', 'fashion', 'food']
+The real Unsplash request is made with the seache component.

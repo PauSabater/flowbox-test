@@ -80,8 +80,6 @@ export function Card({
                 setHeightauto(refContainer.current)
             }
         })
-
-        onresize = (event) => {}
     })
 
     /**

@@ -30,6 +30,7 @@ export function DisplaySelector(): JSX.Element {
                                 setDisplaStylePersist(displayStyles[i])
                                 dispatch(setDisplayStyle(displayStyles[i]))
                             }}
+                            aria-label={`Display ${displayName}`}
                         >
                             <DisplayIcon src={`/${displayName}.svg`}/>
                         </button>

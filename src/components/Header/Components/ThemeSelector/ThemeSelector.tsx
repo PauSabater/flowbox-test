@@ -46,6 +46,8 @@ export function ThemeSelector({themes}: IThemesSelector) {
                                 className={styles.button}
                                 data-selected={theme === currentTheme}
                                 onClick={()=> onThemeChange(themes[i])}
+                                aria-label={`Change to theme ${theme}`}
+
                             >
                                 {theme}
                             </button>

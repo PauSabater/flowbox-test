@@ -17,6 +17,10 @@ export const setSearchValuePersist = (value: string)=> {
     localStorage.setItem('search-value', value)
 }
 
+export const setModePersist = (value: string)=> {
+    localStorage.setItem('mode', value)
+}
+
 export const getDisplaStylePersist = ()=> {
     return localStorage.getItem('display-style') || ''
 }
@@ -36,4 +40,6 @@ export const getSearchValuePersist = (): string => {
     return localStorage.getItem('search-value') || ''
 }
 
-
+export const getModePersist = (): string => {
+    return localStorage.getItem('mode') || ''
+}

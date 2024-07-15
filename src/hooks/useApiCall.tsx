@@ -1,9 +1,11 @@
 import { useState, useCallback } from 'react'
 import { generateApiResponse, type IResponseImage } from 'src/pages/api/generateApiResponse'
-import { useDispatch, useSelector } from 'react-redux'
-import type { AppDispatch, RootState } from '@store/store'
+import { useDispatch } from 'react-redux'
+import type { AppDispatch } from '@store/store'
 import { setDataImages } from '@store/appSlice'
 import { setImagesPersist } from '@store/persist'
+import dotenv from 'dotenv'
+
 
 /**
  * Custom hook to make an API call
@@ -28,7 +30,7 @@ export const useApiCall = () => {
             if (isUnsplashCall) {
                 response = await fetch(url, {
                     headers: {
-                      Authorization: `Client-ID -FYr5Hviy6RDha69QhVn7ml4ZXHw6W2cgppbvGbNz08`
+                    Authorization: `Client-ID ${import.meta.env.PUBLIC_API_ID}`
                     }
                 })
             }

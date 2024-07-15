@@ -43,12 +43,14 @@ export function Controls({
             <button
                 className={styles.arrowLeft}
                 onClick={()=> onClickLeft()}
+                aria-label={'move left'}
             >
                 <Arrow/>
             </button>
             <button
                 className={styles.arrowRight}
                 onClick={()=> onClickRight()}
+                aria-label={'move right'}
             >
                 <Arrow/>
             </button>
@@ -57,6 +59,7 @@ export function Controls({
                 <button
                     className={styles.arrowLeft}
                     onClick={()=> onClickLeft()}
+                    aria-label={'move left'}
                 >
                     <Arrow />
                 </button>
@@ -64,7 +67,7 @@ export function Controls({
                     className={styles.range}
                     type='range'
                     min='0'
-                    max={totalPos - 3}
+                    max={totalPos - 2}
                     step='1'
                     onChange={(e)=> onRangeChange(e)}
                     value={currentPos}
@@ -72,6 +75,7 @@ export function Controls({
                 <button
                     className={styles.arrowRight}
                     onClick={()=> onClickRight()}
+                    aria-label={'move right'}
                 >
                     <Arrow />
                 </button>
